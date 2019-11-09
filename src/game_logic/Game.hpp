@@ -6,7 +6,7 @@
 /*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:59 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/09 16:48:18 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/09 18:50:17 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,8 @@ private:
 	Map		map_;
 	IGraphicLibrary*	glib_;
 };
+
+
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:58:12 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/09 16:23:07 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/09 18:06:51 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,14 @@
 
 class Map {
 public:
-	Map&	instance();
-	bool	setSize( size_t , size_t );
+	Map( size_t , size_t );
+	~Map();
 	size_t	getWidth() const ;
 	size_t	getHeight() const ;
 	//mb there should be function for spawn food or other things
+	
 
 private:
-	Map();
-	~Map();
 	Map( const Map & );
 	Map&	operator=( const Map & );
 
