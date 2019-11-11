@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AFood.hpp                                          :+:      :+:    :+:   */
+/*   Food.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
+/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:54:09 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/09 16:43:06 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/11 14:49:56 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NIBBLER_HEADERS_GAME_LOGIC_AFOOD_HPP
-# define NIBBLER_HEADERS_GAME_LOGIC_AFOOD_HPP
+#ifndef NIBBLER_HEADERS_GAME_LOGIC_FOOD_HPP
+# define NIBBLER_HEADERS_GAME_LOGIC_FOOD_HPP
 
 # include "IEntity.hpp"
 
-class AFood : public IEntity {
+class Food : public IEntity {
 public:
-	AFood( size_t x = 0, size_t y = 0, size_t size = 1 );
-	~AFood();
+	Food( size_t x = 0, size_t y = 0, size_t size = 1 );
+	~Food();
 	
 private:
 	Dot<size_t>	pos_;

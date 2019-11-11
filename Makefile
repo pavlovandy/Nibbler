@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+         #
+#    By: anri <anri@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/01 22:23:36 by anri              #+#    #+#              #
-#    Updated: 2019/11/09 17:58:27 by Andrii Pavl      ###   ########.fr        #
+#    Updated: 2019/11/11 14:49:48 by anri             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ FLAGS = -Wall -Wextra -Wconversion -Werror
 NAME = nibbler
 
 SRC =	main.cpp \
-		game_logic/AFood.cpp  \
+		game_logic/Food.cpp  \
 		game_logic/Game.cpp game_logic/Map.cpp \
 		game_logic/SimpleFood.cpp game_logic/Snake.cpp
 
