@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Food.hpp                                          :+:      :+:    :+:   */
+/*   Block.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/09 14:54:09 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/11 14:49:56 by anri             ###   ########.fr       */
+/*   Created: 2019/11/09 16:48:27 by Andrii Pavl       #+#    #+#             */
+/*   Updated: 2019/11/11 15:43:17 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef NIBBLER_HEADERS_GAME_LOGIC_FOOD_HPP
-# define NIBBLER_HEADERS_GAME_LOGIC_FOOD_HPP
+#include "Block.hpp"
 
-# include "IEntity.hpp"
+Block::Block( size_t x , size_t y ) : pos_(Dot(x, y)) {}
 
-class Food : public IEntity {
-public:
-	Food( size_t x = 0, size_t y = 0, size_t size = 1 );
-	~Food();
-	
-private:
-	Dot<size_t>	pos_;
-	size_t		size_;
-};
+Block::Block( const Block & f ) : pos_(f.pos_) {}
 
-#endif
+Block&	Block::operator=( const Block & f ) {
+	pos_ = f.pos_;
+	return *this;
+}
+
+bool Block::collision( const Dot<> & d ) {
+	if (pos_ == d)
+		return (true);
+	return (false);
+}

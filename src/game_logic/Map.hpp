@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
+/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:58:12 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/09 18:06:51 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/11 16:53:16 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,30 @@
 
 # include <vector>
 # include <cstddef>
+# include "Block.hpp"
 
-class Map {
-public:
-	Map( size_t , size_t );
-	~Map();
-	size_t	getWidth() const ;
-	size_t	getHeight() const ;
-	//mb there should be function for spawn food or other things
-	
+namespace MapStuff {
 
-private:
-	Map( const Map & );
-	Map&	operator=( const Map & );
+	class Map {
+	public:
+		Map( size_t , size_t );
+		~Map();
+		size_t	getWidth() const ;
+		size_t	getHeight() const ;
+		std::vector< Block >&	getCookies();
+		const std::vector< Block >&	getWall() const ;
 
-	size_t	width_;
-	size_t	height_;
-	//IEntitry* entites for drawing:
-	//all part of snake food blocks
-};
+	private:
+		Map( const Map & );
+		Map&	operator=( const Map & );
+
+		size_t	width_;
+		size_t	height_;
+		std::vector< Block >	cookies_;
+		std::vector< Block >	wall_;
+	};
+
+	void	createWallAtConstruct( size_t w, size_t h, std::vector< Block >& wall);
+}
 
 #endif

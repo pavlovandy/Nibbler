@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   IEntity.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
+/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:52:58 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/09 15:46:00 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/11 15:41:02 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 class IEntity {
 	public:
-		virtual void draw() = 0;
+		virtual bool collision( const Dot<> & d ) = 0;
 		virtual ~IEntity() {}
 };
 

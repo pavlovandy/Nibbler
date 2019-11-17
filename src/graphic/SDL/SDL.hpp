@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   SDL.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
+/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:53:22 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/16 17:08:28 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/17 00:26:44 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ public:
 	
 	void	displaySnake( const Snake & ) override ;
 	void	displayMap( const Map & ) override ;
-	ControlEvents	checkControls( Game & ) override ;
-	void	close( ) override ;
+	ControlEvents	getNextEventInQueue( ) override ;
 
 private:
 	SDL_Window*		win_;
 	SDL_Surface*	win_surr_;
+	SDL_Event		ev;
 };
 
 #endif
