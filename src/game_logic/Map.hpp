@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:58:12 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/11 16:53:16 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/17 23:31:51 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,26 @@ namespace MapStuff {
 
 	class Map {
 	public:
-		Map( size_t , size_t );
+		Map( int , int );
 		~Map();
-		size_t	getWidth() const ;
-		size_t	getHeight() const ;
+		int	getWidth() const ;
+		int	getHeight() const ;
 		std::vector< Block >&	getCookies();
+		const std::vector< Block >&	getCookies() const ;
 		const std::vector< Block >&	getWall() const ;
 
 	private:
 		Map( const Map & );
 		Map&	operator=( const Map & );
 
-		size_t	width_;
-		size_t	height_;
+		int	width_;
+		int	height_;
 		std::vector< Block >	cookies_;
 		std::vector< Block >	wall_;
 	};
 
-	void	createWallAtConstruct( size_t w, size_t h, std::vector< Block >& wall);
+	void	createWallAtConstruct( int w, int h, std::vector< Block >& wall);
+	Block	spawnFood( std::vector< Dot<> > snake, const MapStuff::Map & map );	
 }
 
 #endif

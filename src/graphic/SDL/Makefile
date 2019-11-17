@@ -1,9 +1,9 @@
-NAME	:= libSDL.so
+NAME	:= ../../libSDL.so
 
 CC		:= clang++
-CFLAGS	:= -shared -fPIC -lSDL2 #-Wall -Werror -Wextra
+CFLAGS	:= -shared -fPIC -lSDL2 -Wall -Werror -Wextra
 
-SRCS	:= SDL.cpp
+SRCS	:= SDL.cpp ../../game_logic/Snake.cpp ../../game_logic/Map.cpp ../../game_logic/Block.cpp
 
 
 UNAME_S := $(shell uname -s)

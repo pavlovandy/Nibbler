@@ -12,13 +12,17 @@
 
 #include "Block.hpp"
 
-Block::Block( size_t x , size_t y ) : pos_(Dot(x, y)) {}
+Block::Block( int x , int y ) : pos_(Dot<>(x, y)) {}
 
 Block::Block( const Block & f ) : pos_(f.pos_) {}
 
 Block&	Block::operator=( const Block & f ) {
 	pos_ = f.pos_;
 	return *this;
+}
+
+const Dot<int>&	Block::getPos() const {
+	return pos_;
 }
 
 bool Block::collision( const Dot<> & d ) {

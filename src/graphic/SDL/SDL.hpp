@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 14:53:22 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 00:26:44 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/17 22:02:27 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,30 @@
 
 class SDL : public IGraphicLibrary {
 public:
-	enum { SQUARE_SIZE = 40 };
-
 	SDL( int w, int h );
 	SDL( SDL const & ) = delete ;
 	SDL&	operator=( SDL const & ) = delete ;
-	~SDL();
+	virtual ~SDL();
 	
 	void	displaySnake( const Snake & ) override ;
-	void	displayMap( const Map & ) override ;
+	void	displayMap( const MapStuff::Map & ) override ;
 	ControlEvents	getNextEventInQueue( ) override ;
+	void	update() override ;
+	void	delay( size_t ms ) override ;
 
 private:
+	enum {	SQUARE_SIZE = 20 };
+	enum {	BACKGROUND_COLOR = 0x7ec850, \
+			HEAD_COLOR = 0x5A009D, \
+			BODY_COLOR = 0x800080, \
+			WALL_COLOR = 0x964B00, \
+			FOOD_COLOR = 0xffff00 };
+
+	void	displayRect( int x, int y, Uint32 c, int w, int h );
+
 	SDL_Window*		win_;
 	SDL_Surface*	win_surr_;
-	SDL_Event		ev;
+	SDL_Event		ev_;
 };
 
 #endif

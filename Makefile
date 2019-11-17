@@ -6,30 +6,28 @@
 #    By: anri <anri@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/01 22:23:36 by anri              #+#    #+#              #
-#    Updated: 2019/11/11 14:49:48 by anri             ###   ########.fr        #
+#    Updated: 2019/11/17 23:26:49 by anri             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang++ -std=c++14
 
-FLAGS = -Wall -Wextra -Wconversion -Werror
+FLAGS = -Wall -Wextra -Wconversion
 
 NAME = nibbler
 
-SRC =	main.cpp \
-		game_logic/Food.cpp  \
-		game_logic/Game.cpp game_logic/Map.cpp \
-		game_logic/SimpleFood.cpp game_logic/Snake.cpp
+SRC_DIR = ./src/
 
-HEAD =	other/terminal_colors.hpp \
-		game_logic/AFood.hpp game_logic/Dot.hpp \
-		game_logic/Game.hpp game_logic/IEntity.hpp \
-		game_logic/Map.hpp game_logic/SimpleFood.hpp \
-		game_logic/Snake.hpp
+SRC = main.cpp game_logic/Block.cpp game_logic/Game.cpp game_logic/Map.cpp game_logic/Snake.cpp other/DyLibLoad.cpp
+
+HEAD =	other/terminal_colors.hpp other/DyLibLoad.hpp \
+		game_logic/Dot.hpp \
+		game_logic/Game.hpp \
+		game_logic/Map.hpp game_logic/Block.hpp \
+		game_logic/Snake.hpp \
+		graphic/IGraphicLibrary.hpp
 
 HEADERS = $(addprefix $(SRC_DIR), $(HEAD))
-
-SRC_DIR = ./src/
 
 OBJ_DIR = ./obj/
 
@@ -37,15 +35,19 @@ OBJ = $(addprefix $(OBJ_DIR), $(SRC:.cpp=.o))
 
 UNAME_S := $(shell uname -s)
 
-LINKS :=
+LINKS := -ldl
 
-INCLUDES :=
+INCLUDES := 
 
-all: obj_dir $(NAME)
+all: sdl obj_dir $(NAME) # sfml opengl
 	echo "Compilated"
 
 obj_dir:
 	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)
+	mkdir -p $(OBJ_DIR)/game_logic
+	mkdir -p $(OBJ_DIR)/graphic
+	mkdir -p $(OBJ_DIR)/other
 
 $(NAME): $(OBJ)
 	$(CC) $(FLAGS) $(OBJ) -o $(NAME) $(LINKS)
@@ -53,10 +55,22 @@ $(NAME): $(OBJ)
 $(OBJ_DIR)%.o: $(SRC_DIR)%.cpp $(HEADERS)
 	$(CC) $(FLAGS) $(INCLUDES) -o $@ -c $<
 
+sdl:
+	make -C src/graphic/SDL
+
+sfml:
+	make -C src/graphic/SFML
+
+opengl:
+	make -C src/graphic/OpenGL
+
 clean:
 	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
+	make -C src/graphic/SDL fclean
+#make -C src/graphic/sfml fclean
+#make -C src/graphic/OpenGL fclean
 
 re: fclean all

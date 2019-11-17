@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:59 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 02:14:52 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/17 22:10:11 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,21 @@ class IGraphicLibrary;
 
 class	Game {
 public:
-	Game( size_t w, size_t h );
+	Game( int w, int h, const std::string & start_lib = "src/libSDL.so" );
 	Game( const Game & ) = delete ;
 	Game&	operator=( const Game & ) = delete ;
-	~Game() = default ;
+	~Game();
 
 	void		start();
+	void		controls();
 
 private:
 	bool		setEverythingUp();
 
-	std::unique_ptr< Snake >	snake_;
+	std::unique_ptr< Snake >		snake_;
 	std::unique_ptr< MapStuff::Map >		map_;
-	std::unique_ptr< IGraphicLibrary >	glib_;
+	IGraphicLibrary*	glib_;
+	bool	exit;
 };
 
 #endif

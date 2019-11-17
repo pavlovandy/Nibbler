@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
+/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 16:44:46 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/09 17:44:48 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/17 21:57:08 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 bool	get_numbers( int & a, int & b, char ** argv) {
 	try
 	{
-		int w = std::stol(argv[1]);
-		int h = std::stol(argv[2]);
+		a = std::stoi(argv[1]);
+		b = std::stoi(argv[2]);
+		// if (a < 15 || a > 100 || b < 15 || b > 50)
+		// {
+		// 	std::cout << RED << "Usage: " << COLOR_OFF << std::endl;
+		// 	return false;
+		// }
 		return (true);
 	}
 	catch(const std::exception& e)
@@ -37,10 +42,15 @@ int		main( int argc, char ** argv ) {
 		int h = 0;
 		if (get_numbers(w, h, argv) == false)
 			return (0);
-
-		Game	game(w, h);
-		game.start();
-
+		try
+		{
+			Game	game(w, h);
+			game.start();
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << '\n';
+		}
 	}
 	else {
 		std::cout << RED << "Usage: " << COLOR_OFF << std::endl;
