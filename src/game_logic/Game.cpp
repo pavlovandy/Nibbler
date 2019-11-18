@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 18:50:17 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 23:31:06 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/18 19:04:02 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,32 @@ Game::Game( int w, int h, const std::string & start_lib ) : glib_(nullptr), exit
 
 void		Game::controls() {
 	static auto & dlLoad = DyLibLoad::DyLibLoader::getInstance();
+	bool	flag = false; //to allow only change once directrion per frame
 	for ( ControlEvents ev; (ev = glib_->getNextEventInQueue()) != NoEvent; ) {
 		switch (ev){
 			case Quit: exit = true; break;
-			case Left: snake_.get()->changeDir(Dot<>{-1, 0}); break;
-			case Right: snake_.get()->changeDir(Dot<>{1, 0}); break;
-			case Up: snake_.get()->changeDir(Dot<>{0, -1}); break;
-			case Down: snake_.get()->changeDir(Dot<>{0, 1}); break;
-			case StartSprint: snake_.get()->sprintOn(); break;
-			case StopSprint: snake_.get()->sprintOff(); break;
+			case Left: 
+				if (!flag)
+					snake_.get()->changeDir(Dot<>{-1, 0});
+				flag = true; 
+				break;
+			case Right:
+				if (!flag)
+					snake_.get()->changeDir(Dot<>{1, 0});
+				flag = true;
+				break;
+			case Up: 
+				if (!flag)
+					snake_.get()->changeDir(Dot<>{0, -1});
+				flag = true; 
+				break;
+			case Down: 
+				if (!flag)
+					snake_.get()->changeDir(Dot<>{0, 1});
+				flag = true;
+				break;
+			case StartSprint: if (!flag) snake_.get()->sprintOn(); break;
+			case StopSprint: if (!flag) snake_.get()->sprintOff(); break;
 			case Num1:
 				dlLoad.changeLib(SDL_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
 			break;
@@ -52,27 +69,29 @@ Game::~Game() {
 	DyLibLoad::DyLibLoader::getInstance().closeLib();
 }
 
+
+static int		moveSnake( Snake* snake_, MapStuff::Map* map_ ) {
+	snake_->move();
+	if (snake_->selfCollision() || snake_->obstacleCollision(map_->getWall()))
+		return (true);
+	size_t num = snake_->foodCollison(map_->getCookies());
+	if (num != map_->getCookies().size()) {
+		snake_->growUp();
+		map_->getCookies()[num] = MapStuff::spawnFood( snake_->getSnake(), *map_ );
+	}
+	return (false);
+}
+
 void		Game::start() {
 	exit = false;
-	
-
 	while (!exit) {
+		controls();
+		glib_->delay(60);
+		exit = moveSnake(snake_.get(), map_.get());
+		if (snake_->getSprintStatus() && !exit)
+			exit = moveSnake(snake_.get(), map_.get());
 		glib_->displayMap( *map_ );
 		glib_->displaySnake( *snake_ );
 		glib_->update();
-		glib_->delay(60);
-		controls();
-		snake_->move();
-		if (snake_->selfColision() || snake_->obstacleColision(map_->getWall()))
-			exit = true;
-		size_t num = snake_->foodColison(map_->getCookies());
-		if (num != map_->getCookies().size()) {
-			map_->getCookies()[num] = MapStuff::spawnFood( snake_->getSnake(), *map_ );
-		}
-		if (snake_->getSprintStatus()) {
-			snake_->move();
-			if (snake_->selfColision() || snake_->obstacleColision(map_->getWall()))
-				exit = true;
-		}
 	}
 }

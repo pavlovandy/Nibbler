@@ -30,3 +30,8 @@ bool Block::collision( const Dot<> & d ) {
 		return (true);
 	return (false);
 }
+
+std::ostream&	operator<<(std::ostream& o, const Block & b) {
+	o << b.getPos().x << " " << b.getPos().y;
+	return o;
+}

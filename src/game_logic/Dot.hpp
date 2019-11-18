@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 15:38:56 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 20:05:24 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/18 16:07:28 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ struct Dot {
 	Dot<T>	operator-( const Dot<T> & rhs ) const {
 		return (Dot<T>{x - rhs.x, y - rhs.y});
 	}
-	//to check collision
+
 	bool	operator==( const Dot<T> & rhs ) const {
 		return (rhs.x == x && rhs.y == y);
 	}

@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 13:30:58 by anri              #+#    #+#             */
-/*   Updated: 2019/11/17 20:56:38 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/18 19:08:39 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include <exception>
 
 # ifdef __APPLE__
-#  define SDL_LIB_PATH		"../libSDL.dylib"
-#  define SFML_LIB_PATH		"../libSFML.dylib"
-#  define OPENGL_LIB_PATH	"../libOpenGL.dylib"
+#  define SDL_LIB_PATH		"src/libSDL.dylib"
+#  define SFML_LIB_PATH		"src/libSFML.dylib"
+#  define OPENGL_LIB_PATH	"src/libOpenGL.dylib"
 # else
-#  define SDL_LIB_PATH		"../libSDL.so"
-#  define SFML_LIB_PATH		"../libSFML.so"
-#  define OPENGL_LIB_PATH	"../libOpenGL.so"	
+#  define SDL_LIB_PATH		"src/libSDL.so"
+#  define SFML_LIB_PATH		"src/libSFML.so"
+#  define OPENGL_LIB_PATH	"src/libOpenGL.so"	
 #endif
 
 enum GraphicalLibrary {

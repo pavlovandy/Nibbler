@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:54:09 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 23:08:19 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/18 15:54:35 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define NIBBLER_HEADERS_GAME_LOGIC_Block_HPP
 
 # include "Dot.hpp"
+# include <ostream>
 
 class Block {
 public:
@@ -28,5 +29,7 @@ public:
 private:
 	Dot<>	pos_;
 };
+
+std::ostream&	operator<<(std::ostream& o, const Block & b);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 16:48:09 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 23:32:20 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/18 17:15:22 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,27 @@ const std::vector< Block >&	Map::getWall() const {
 	return wall_;
 }
 
+#include "Block.hpp"
+#include <iostream>
 Block	MapStuff::spawnFood( std::vector< Dot<> > snake, const MapStuff::Map & map ) {
-	static std::default_random_engine generator;
+	static std::default_random_engine generator{std::random_device()()};
 	static std::uniform_int_distribution<int> scale_x(0, map.getWidth() - 1);
 	static std::uniform_int_distribution<int> scale_y(0, map.getHeight() - 1);
 
 	bool flag = false;
-	Block	res;
+	Block	res{0, 0};
 	while (!flag) {
+		flag = true;
 		res = Block(scale_x(generator), scale_y(generator));
 		for ( auto& part : snake ) 
 			if (part == res.getPos())
-				continue ;
+				flag = false;
 		for ( auto& part : map.getWall() )
 			if (part.getPos() == res.getPos())
-				continue ;
+				flag = false;
 		for ( auto& part : map.getCookies() )
 			if (part.getPos() == res.getPos())
-				continue ;
-		flag = true;
+				flag = false;
 	}
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 16:44:46 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 21:57:08 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/18 18:53:25 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ bool	get_numbers( int & a, int & b, char ** argv) {
 	{
 		a = std::stoi(argv[1]);
 		b = std::stoi(argv[2]);
-		// if (a < 15 || a > 100 || b < 15 || b > 50)
-		// {
-		// 	std::cout << RED << "Usage: " << COLOR_OFF << std::endl;
-		// 	return false;
-		// }
+		if (a < 15 || a > 100 || b < 15 || b > 60)
+		{
+			std::cout << RED << "Usage: " << COLOR_OFF << std::endl;
+			return false;
+		}
 		return (true);
 	}
 	catch(const std::exception& e)

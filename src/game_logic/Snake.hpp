@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:40 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 23:28:20 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/18 18:54:17 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 class Snake {
 public:
-	Snake( Dot<> head, size_t start_lenght = 20 );
+	Snake( Dot<> head, size_t start_lenght = 4 );
 	~Snake();
 
 	void		move();
@@ -31,9 +31,9 @@ public:
 	void		sprintOn();
 	void		sprintOff();
 	bool		getSprintStatus() const ;
-	bool		selfColision() const ;
-	bool		obstacleColision( const std::vector< Block > & wall ) const ;
-	size_t		foodColison( const std::vector< Block > & food ) const ;
+	bool		selfCollision() const ;
+	bool		obstacleCollision( const std::vector< Block > & wall ) const ;
+	size_t		foodCollison( const std::vector< Block > & food ) const ;
 
 private:
 	enum { MAX_SNAKE_LENGHT = 40 };
