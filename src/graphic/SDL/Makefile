@@ -1,16 +1,18 @@
-NAME	:= ../../libSDL.so
-
 CC		:= clang++
 CFLAGS	:= -shared -fPIC -lSDL2 -Wall -Werror -Wextra
 
-SRCS	:= SDL.cpp ../../game_logic/Snake.cpp ../../game_logic/Map.cpp ../../game_logic/Block.cpp
-
+SRCS	:= SDL.cpp ../../game_logic/Snake.cpp ../../game_logic/Map.cpp
 
 UNAME_S := $(shell uname -s)
 SDL_PACKEAGES = 
 
+NAME	:=
+
 ifeq ($(UNAME_S),Darwin)
+	NAME	+= ../../libSDL.dylib
 	SDL_PACKEAGES += -I ~/.brew/include -L ~/.brew/lib
+else 
+	NAME	+= ../../libSDL.so
 endif
 
 all: $(NAME)

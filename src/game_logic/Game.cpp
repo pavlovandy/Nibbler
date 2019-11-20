@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 18:50:17 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/18 19:04:02 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/20 21:58:09 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ void		Game::controls() {
 			case StartSprint: if (!flag) snake_.get()->sprintOn(); break;
 			case StopSprint: if (!flag) snake_.get()->sprintOff(); break;
 			case Num1:
-				dlLoad.changeLib(SDL_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
+				glib_ = dlLoad.changeLib(SDL_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
 			break;
 			case Num2:
-				dlLoad.changeLib(SFML_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
+				glib_ = dlLoad.changeLib(SFML_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
 			break;
 			case Num3:
-				dlLoad.changeLib(OPENGL_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
+				glib_ = dlLoad.changeLib(OPENGL_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
 			break;
 			case UnTrackedEvent: break;
 			default: break;
@@ -69,12 +69,11 @@ Game::~Game() {
 	DyLibLoad::DyLibLoader::getInstance().closeLib();
 }
 
-
 static int		moveSnake( Snake* snake_, MapStuff::Map* map_ ) {
 	snake_->move();
-	if (snake_->selfCollision() || snake_->obstacleCollision(map_->getWall()))
+	if (snake_->selfCollision() || snake_->collision(map_->getWall()) != map_->getWall().size())
 		return (true);
-	size_t num = snake_->foodCollison(map_->getCookies());
+	size_t num = snake_->collision(map_->getCookies());
 	if (num != map_->getCookies().size()) {
 		snake_->growUp();
 		map_->getCookies()[num] = MapStuff::spawnFood( snake_->getSnake(), *map_ );
@@ -82,14 +81,18 @@ static int		moveSnake( Snake* snake_, MapStuff::Map* map_ ) {
 	return (false);
 }
 
+#include <iostream>
+
 void		Game::start() {
 	exit = false;
 	while (!exit) {
-		controls();
 		glib_->delay(60);
+		controls();
+		if (exit) return ;
 		exit = moveSnake(snake_.get(), map_.get());
-		if (snake_->getSprintStatus() && !exit)
+		if (!exit && snake_->getSprintStatus())
 			exit = moveSnake(snake_.get(), map_.get());
+		if (exit) return ;
 		glib_->displayMap( *map_ );
 		glib_->displaySnake( *snake_ );
 		glib_->update();

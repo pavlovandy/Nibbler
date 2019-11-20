@@ -6,7 +6,7 @@
 #    By: anri <anri@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/01 22:23:36 by anri              #+#    #+#              #
-#    Updated: 2019/11/17 23:26:49 by anri             ###   ########.fr        #
+#    Updated: 2019/11/20 21:33:50 by anri             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,12 +18,12 @@ NAME = nibbler
 
 SRC_DIR = ./src/
 
-SRC = main.cpp game_logic/Block.cpp game_logic/Game.cpp game_logic/Map.cpp game_logic/Snake.cpp other/DyLibLoad.cpp
+SRC = main.cpp game_logic/Game.cpp game_logic/Map.cpp game_logic/Snake.cpp other/DyLibLoad.cpp
 
 HEAD =	other/terminal_colors.hpp other/DyLibLoad.hpp \
 		game_logic/Dot.hpp \
 		game_logic/Game.hpp \
-		game_logic/Map.hpp game_logic/Block.hpp \
+		game_logic/Map.hpp \
 		game_logic/Snake.hpp \
 		graphic/IGraphicLibrary.hpp
 
@@ -39,7 +39,7 @@ LINKS := -ldl
 
 INCLUDES := 
 
-all: sdl obj_dir $(NAME) # sfml opengl
+all: sdl sfml obj_dir $(NAME) # sfml opengl
 	echo "Compilated"
 
 obj_dir:
@@ -70,7 +70,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make -C src/graphic/SDL fclean
-#make -C src/graphic/sfml fclean
+	make -C src/graphic/SFML fclean
 #make -C src/graphic/OpenGL fclean
 
 re: fclean all

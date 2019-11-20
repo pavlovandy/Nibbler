@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 15:23:30 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/17 21:55:35 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/20 18:42:12 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 SDL::SDL( int w, int h ) {
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-		throw SDL_GetError();
+		throw std::runtime_error(SDL_GetError());
 	if (!(win_ = SDL_CreateWindow("Nibbler SDL", SDL_WINDOWPOS_CENTERED, \
 		SDL_WINDOWPOS_CENTERED, w * SQUARE_SIZE, h * SQUARE_SIZE, SDL_WINDOW_SHOWN)))
-		throw SDL_GetError();
+		throw std::runtime_error(SDL_GetError());
 	if (!(win_surr_ = SDL_GetWindowSurface(win_)))
-		throw SDL_GetError();
+		throw std::runtime_error(SDL_GetError());
 }
 
 SDL::~SDL() {
@@ -53,10 +53,10 @@ void	SDL::displayMap( const MapStuff::Map & map ) {
 	displayRect(0, 0, BACKGROUND_COLOR, map.getWidth() * SQUARE_SIZE, map.getHeight() * SQUARE_SIZE);
 	
 	for (auto & food : map.getCookies()) {
-		displayRect(food.getPos().x * SQUARE_SIZE, food.getPos().y * SQUARE_SIZE, FOOD_COLOR, SQUARE_SIZE, SQUARE_SIZE);
+		displayRect(food.x * SQUARE_SIZE, food.y * SQUARE_SIZE, FOOD_COLOR, SQUARE_SIZE, SQUARE_SIZE);
 	}
 	for (auto & wall : map.getWall()) {
-		displayRect(wall.getPos().x * SQUARE_SIZE, wall.getPos().y * SQUARE_SIZE, WALL_COLOR, SQUARE_SIZE, SQUARE_SIZE);
+		displayRect(wall.x * SQUARE_SIZE, wall.y * SQUARE_SIZE, WALL_COLOR, SQUARE_SIZE, SQUARE_SIZE);
 	}
 }
 

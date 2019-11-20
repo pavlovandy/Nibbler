@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:59 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/18 16:15:50 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/20 21:08:49 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class IGraphicLibrary;
 
 class	Game {
 public:
-	Game( int w, int h, const std::string & start_lib = "src/libSDL.so" );
+	Game( int w, int h, const std::string & start_lib = "src/libSFML.so" );
 	Game( const Game & ) = delete ;
 	Game&	operator=( const Game & ) = delete ;
 	~Game();

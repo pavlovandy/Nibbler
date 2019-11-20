@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 13:30:58 by anri              #+#    #+#             */
-/*   Updated: 2019/11/18 19:08:39 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/20 21:27:40 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ namespace DyLibLoad {
 		DyLibLoader&	operator=( const DyLibLoader & ) = delete ;
 
 		void*			handler_;
-		IGraphicLibrary*	glib_;
 		allocator_t		*alloc_;
+		IGraphicLibrary*	glib_;
 		deallocator_t	*dealloc_;
 		std::string last_lib_path_;
 	};

@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 16:48:09 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/18 17:15:22 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/20 15:54:43 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 #include <random>
 using MapStuff::Map;
 
-void	MapStuff::createWallAtConstruct( int w, int h, std::vector< Block >& wall ) {
+void	MapStuff::createWallAtConstruct( int w, int h, std::vector< Dot<> >& wall ) {
 	wall.clear();
 	wall.reserve(static_cast<unsigned>(2 * (w + h) - 4));
 	for (int y = 0; y < h; y++)
 	{
-		wall.push_back(Block(0, y));
-		wall.push_back(Block(w - 1, y));
+		wall.push_back(Dot<>(0, y));
+		wall.push_back(Dot<>(w - 1, y));
 	}
 	for (int x = 1; x < w - 1; x++) {
-		wall.push_back(Block(x, 0));
-		wall.push_back(Block(x, h - 1));
+		wall.push_back(Dot<>(x, 0));
+		wall.push_back(Dot<>(x, h - 1));
 	}
 }
 
@@ -46,38 +46,36 @@ int	Map::getHeight() const {
 	return height_;	
 }
 
-std::vector< Block >&	Map::getCookies() {
+std::vector< Dot<> >&	Map::getCookies() {
 	return cookies_;
 }
 
-const std::vector< Block >&	Map::getCookies() const {
+const std::vector< Dot<> >&	Map::getCookies() const {
 	return cookies_;
 }
 
-const std::vector< Block >&	Map::getWall() const {
+const std::vector< Dot<> >&	Map::getWall() const {
 	return wall_;
 }
 
-#include "Block.hpp"
-#include <iostream>
-Block	MapStuff::spawnFood( std::vector< Dot<> > snake, const MapStuff::Map & map ) {
+Dot<>	MapStuff::spawnFood( std::vector< Dot<> > snake, const MapStuff::Map & map ) {
 	static std::default_random_engine generator{std::random_device()()};
 	static std::uniform_int_distribution<int> scale_x(0, map.getWidth() - 1);
 	static std::uniform_int_distribution<int> scale_y(0, map.getHeight() - 1);
 
 	bool flag = false;
-	Block	res{0, 0};
+	Dot<>	res{0, 0};
 	while (!flag) {
 		flag = true;
-		res = Block(scale_x(generator), scale_y(generator));
+		res = Dot<>(scale_x(generator), scale_y(generator));
 		for ( auto& part : snake ) 
-			if (part == res.getPos())
+			if (part == res)
 				flag = false;
 		for ( auto& part : map.getWall() )
-			if (part.getPos() == res.getPos())
+			if (part == res)
 				flag = false;
 		for ( auto& part : map.getCookies() )
-			if (part.getPos() == res.getPos())
+			if (part == res)
 				flag = false;
 	}
 	return (res);

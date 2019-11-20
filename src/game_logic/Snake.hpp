@@ -6,7 +6,7 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:40 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/18 18:54:17 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/20 23:25:14 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "Dot.hpp"
 # include <vector>
-# include "Block.hpp"
+# include "Dot.hpp"
 
 class Snake {
 public:
@@ -32,8 +32,7 @@ public:
 	void		sprintOff();
 	bool		getSprintStatus() const ;
 	bool		selfCollision() const ;
-	bool		obstacleCollision( const std::vector< Block > & wall ) const ;
-	size_t		foodCollison( const std::vector< Block > & food ) const ;
+	size_t		collision( const std::vector< Dot<> > & food ) const ;
 
 private:
 	enum { MAX_SNAKE_LENGHT = 40 };
@@ -43,7 +42,6 @@ private:
 	
 	Dot<int>	direction_;
 	std::vector< Dot<> >	snake_parts_;
-	size_t		last_el_;
 	bool		sprint_;
 };
 

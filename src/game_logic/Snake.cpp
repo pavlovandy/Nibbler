@@ -6,29 +6,22 @@
 /*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 16:47:46 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/18 18:52:12 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/20 18:04:07 by anri             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Snake.hpp"
 
-// set last like a first at prev frame
-// and just move first
-// 'couse anything after first and last shouldnt be changed
-
 Snake::~Snake() {
 	snake_parts_.clear();
 }
-#include <iostream>
+
 void		Snake::move() {
-	
 	for (auto i = snake_parts_.rbegin() ; i != snake_parts_.rend() - 1; ++i ) {
 		*i = *std::next(i, 1);
 	}
 	snake_parts_[0] = snake_parts_[0] + direction_;
 }
-
-
 
 Snake::Snake( Dot<> head, size_t start_lenght ) : direction_{-1, 0}, sprint_(false) {
 	snake_parts_.reserve(MAX_SNAKE_LENGHT);
@@ -36,13 +29,11 @@ Snake::Snake( Dot<> head, size_t start_lenght ) : direction_{-1, 0}, sprint_(fal
 		snake_parts_.push_back(head);
 		head = head - direction_;
 	}
-	last_el_ = snake_parts_.size() - 1;
 }
 
 void		Snake::growUp() {
 	if (lenght() < MAX_SNAKE_LENGHT)
-		snake_parts_.push_back(snake_parts_.back()); // place like last element. At the next frame 
-	//this will moves before head and last one will holded.
+		snake_parts_.push_back(snake_parts_.back());
 }
 
 const std::vector< Dot<> >&	Snake::getSnake() const  {
@@ -74,27 +65,18 @@ bool		Snake::getSprintStatus() const {
 }
 
 bool		Snake::selfCollision() const {
-	Dot<> head = snake_parts_[0];
-	for ( size_t i = 1; i != snake_parts_.size(); i++) {
-		if (snake_parts_[i] == head) 
+	auto head = snake_parts_.front();
+	for ( std::vector< Dot<> >::const_iterator i = snake_parts_.begin() + 1; i != snake_parts_.end(); i++ ) {
+		if (*i == head)
 			return true;
 	}
 	return false;
 }
 
-bool		Snake::obstacleCollision( const std::vector< Block > & wall ) const {
-	for ( auto& part : wall) {
-		if (part.getPos() == *snake_parts_.begin())
-			return true;
+size_t			Snake::collision( const std::vector< Dot<> > & block ) const {
+	for ( std::vector< Dot<> >::const_iterator i = block.begin(); i != block.end(); i++ ) {
+		if (*i == *snake_parts_.begin())
+			return static_cast<size_t>(i - block.begin());
 	}
-	return false;
-}
-
-size_t			Snake::foodCollison( const std::vector< Block > & food ) const {
-	
-	for ( size_t i = 0; i != food.size(); i++ ) {
-		if (food[i].getPos() == *snake_parts_.begin())
-			return i;
-	}
-	return food.size();
+	return block.size();
 }
