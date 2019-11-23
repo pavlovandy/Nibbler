@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Game.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 18:50:17 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/20 21:58:09 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/23 18:55:10 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Game.hpp"
-#include "../other/DyLibLoad.hpp"
-#include "Map.hpp"
 
 Game::Game( int w, int h, const std::string & start_lib ) : glib_(nullptr), exit(false) {
 	snake_ = std::make_unique<Snake>(Dot<>{w / 2, h / 2}); //set start snake
@@ -80,8 +78,6 @@ static int		moveSnake( Snake* snake_, MapStuff::Map* map_ ) {
 	}
 	return (false);
 }
-
-#include <iostream>
 
 void		Game::start() {
 	exit = false;

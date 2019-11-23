@@ -14,8 +14,3 @@ echo "SFML installed..."
 echo "OpenGL installing..."
 brew install glew
 echo "OpenGL installed..."
-
-# libOpenGL         GLUT  OpenGL -lSDL2
-## libSDL           -fPIC -lSDL2
-## libSFML         -fPIC -lsfml-graphics -lsfml-window -lsfml-system -rpath
-## libSFMLSound     -lsfml-audio -lsfml-system

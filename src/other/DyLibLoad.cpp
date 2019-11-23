@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   DyLibLoad.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 13:34:24 by anri              #+#    #+#             */
-/*   Updated: 2019/11/20 21:28:32 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/23 15:13:53 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	DyLibLoader::closeLib() {
 		handler_ = nullptr;
 		dealloc_ = nullptr;
 		alloc_ = nullptr;
-	}	
+	}
 }
 
 IGraphicLibrary*	DyLibLoader::changeLib( const std::string & path, int w, int h ) {

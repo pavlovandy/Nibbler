@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Game.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anri <anri@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:59 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/20 21:08:49 by anri             ###   ########.fr       */
+/*   Updated: 2019/11/23 18:54:58 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 # include "../graphic/IGraphicLibrary.hpp"
 # include <cstddef>
 # include <memory>
+# include <string>
+#include "../other/DyLibLoad.hpp"
 
 class IGraphicLibrary;
 
 class	Game {
 public:
-	Game( int w, int h, const std::string & start_lib = "src/libSFML.so" );
+	Game( int w, int h, const std::string & start_lib = SDL_LIB_PATH);
 	Game( const Game & ) = delete ;
 	Game&	operator=( const Game & ) = delete ;
 	~Game();
