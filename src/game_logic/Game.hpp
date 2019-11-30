@@ -6,7 +6,7 @@
 /*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:59 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/23 18:54:58 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/11/30 16:42:04 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <cstddef>
 # include <memory>
 # include <string>
-#include "../other/DyLibLoad.hpp"
+# include "../other/DyLibLoad.hpp"
 
 class IGraphicLibrary;
 

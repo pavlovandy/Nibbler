@@ -7,6 +7,8 @@ set(src
 	DyLibLoad.cpp
 )
 
-add_library(dlloader PUBLIC ${src} ${head})
+add_library(dlloader STATIC ${src} ${head})
 
-target_include_directories(dlloader PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}"/ "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(dlloader PUBLIC iGraphicLibrary)
+
+target_include_directories(dlloader PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/../graphic/")
