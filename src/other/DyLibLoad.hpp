@@ -6,7 +6,7 @@
 /*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 13:30:58 by anri              #+#    #+#             */
-/*   Updated: 2019/11/23 13:53:11 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/12/07 18:46:17 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include <exception>
 
 # ifdef __APPLE__
-#  define SDL_LIB_PATH		"src/libSDL.dylib"
-#  define SFML_LIB_PATH		"src/libSFML.dylib"
-#  define OPENGL_LIB_PATH	"src/libOpenGL.dylib"
+#  define SDL_LIB_PATH		"libSDL_lib.dylib"
+#  define SFML_LIB_PATH		"libSFML_lib.dylib"
+#  define OPENGL_LIB_PATH	"libOpenGL_lib.dylib"
 # else
-#  define SDL_LIB_PATH		"src/libSDL.so"
-#  define SFML_LIB_PATH		"src/libSFML.so"
-#  define OPENGL_LIB_PATH	"src/libOpenGL.so"	
+#  define SDL_LIB_PATH		"libSDL_lib.so"
+#  define SFML_LIB_PATH		"libSFML_lib.so"
+#  define OPENGL_LIB_PATH	"libOpenGL_lib.so"
 #endif
 
 enum GraphicalLibrary {
@@ -32,6 +32,8 @@ enum GraphicalLibrary {
 	SFML_Num,
 	OpenGL_Num
 };
+
+class IGraphicLibrary;
 
 namespace DyLibLoad {
 	typedef IGraphicLibrary* allocator_t(int, int);

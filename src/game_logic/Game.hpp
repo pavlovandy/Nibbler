@@ -6,7 +6,7 @@
 /*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 14:53:59 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/30 16:42:04 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/12/07 17:22:41 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 
 # include "Snake.hpp"
 # include "Map.hpp"
-# include "../graphic/IGraphicLibrary.hpp"
 # include <cstddef>
 # include <memory>
 # include <string>
 # include "../other/DyLibLoad.hpp"
+# include "../graphic/IGraphicLibrary.hpp"
+
+# define SDL_LIB_PATH		"libSDL_lib.dylib"
 
 class IGraphicLibrary;
 
@@ -34,10 +36,9 @@ public:
 	void		controls();
 
 private:
-	bool		setEverythingUp();
 
-	std::unique_ptr< Snake >		snake_;
-	std::unique_ptr< MapStuff::Map >		map_;
+	std::unique_ptr< Snake >	snake_;
+	std::unique_ptr< MapStuff::Map >	map_;
 	IGraphicLibrary*	glib_;
 	bool	exit;
 };
