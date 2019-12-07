@@ -44,7 +44,7 @@ int		main( int argc, char ** argv ) {
 			return (0);
 		try
 		{
-			Game	game(w, h);
+			Game	game(w, h, SFML_LIB_PATH);
 			game.start();
 		}
 		catch(const std::exception& e)

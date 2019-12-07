@@ -22,8 +22,8 @@
 #  define SFML_LIB_PATH		"libSFML_lib.dylib"
 #  define OPENGL_LIB_PATH	"libOpenGL_lib.dylib"
 # else
-#  define SDL_LIB_PATH		"libSDL_lib.so"
-#  define SFML_LIB_PATH		"libSFML_lib.so"
+#  define SDL_LIB_PATH		"/home/anri/CLionProjects/Nibbler/libSDL_lib.so"
+#  define SFML_LIB_PATH		"/home/anri/CLionProjects/Nibbler/libSFML_lib.so"
 #  define OPENGL_LIB_PATH	"libOpenGL_lib.so"
 #endif
 

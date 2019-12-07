@@ -21,13 +21,11 @@
 # include "../other/DyLibLoad.hpp"
 # include "../graphic/IGraphicLibrary.hpp"
 
-# define SDL_LIB_PATH		"libSDL_lib.dylib"
-
 class IGraphicLibrary;
 
 class	Game {
 public:
-	Game( int w, int h, const std::string & start_lib = SDL_LIB_PATH);
+	Game( int w, int h, const std::string & start_lib);
 	Game( const Game & ) = delete ;
 	Game&	operator=( const Game & ) = delete ;
 	~Game();
