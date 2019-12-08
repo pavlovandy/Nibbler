@@ -17,6 +17,7 @@
 
 # include "../IGraphicLibrary.hpp"
 # include <GLFW/glfw3.h>
+# include <queue>
 
 class OpenGL : public IGraphicLibrary {
 public:
@@ -33,10 +34,11 @@ public:
 
 private:
     enum {	SQUARE_SIZE = 20 };
-
+    static void    key_callback(GLFWwindow* win, int key, int scancode, int action, int mode );
     void	displayRect( int x, int y, int w, int h );
 
     GLFWwindow* window;
+    static std::queue<ControlEvents>   event_queue;
 };
 
 #endif

@@ -1,7 +1,7 @@
 set(src OpenGL.cpp)
 set(head OpenGL.hpp)
 
-find_package(glfw3 3.3 REQUIRED)
+find_package(glfw3 3.2 REQUIRED)
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 include_directories(INTERFACE "../" PUBLIC "../../game_logic/")

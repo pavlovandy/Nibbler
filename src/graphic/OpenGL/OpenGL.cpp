@@ -13,6 +13,8 @@
 #include "OpenGL.hpp"
 #include <iostream>
 
+std::queue<ControlEvents>    OpenGL::event_queue;
+
 extern "C" {
     IGraphicLibrary*	allocator( int w, int h) {
         return new OpenGL(w, h);
@@ -28,6 +30,26 @@ static void error_callback(int error, const char* description)
     throw std::runtime_error(description);
 }
 
+void OpenGL::key_callback(GLFWwindow* win, int key, int scancode, int action, int mode ) {
+    if ( action == GLFW_PRESS ) {
+        switch (key) {
+            case GLFW_KEY_W: event_queue.push(Up); break;
+            case GLFW_KEY_S: event_queue.push(Down); break;
+            case GLFW_KEY_A: event_queue.push(Left); break;
+            case GLFW_KEY_D: event_queue.push(Right); break;
+            case GLFW_KEY_SPACE: event_queue.push(StartSprint); break;
+            case GLFW_KEY_ESCAPE: event_queue.push(Quit); break;
+            case GLFW_KEY_1: event_queue.push(Num1); break;
+            case GLFW_KEY_2: event_queue.push(Num2); break;
+            case GLFW_KEY_3: event_queue.push(Num3); break;
+        }
+    }
+    else if ( action == GLFW_RELEASE ) {
+        if ( key == GLFW_KEY_SPACE )
+            event_queue.push(StopSprint);
+    }
+}
+
 OpenGL::OpenGL(int w, int h) {
     if( !glfwInit() )
         throw std::runtime_error("Error while initialization GLFW");
@@ -38,7 +60,7 @@ OpenGL::OpenGL(int w, int h) {
         throw std::runtime_error("Error while initialization GLFW window");
     }
 
-    glfwSetKeyCallback();
+    glfwSetKeyCallback(window, key_callback);
     glfwSetErrorCallback(error_callback);
     glfwMakeContextCurrent(window);
     glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
@@ -61,9 +83,9 @@ void OpenGL::displayRect(int x, int y, int w, int h) {
 }
 
 void OpenGL::delay(size_t ms) {
-//    double time = glfwGetTime( );
-//    while ( ((glfwGetTime( ) - time ) * 1000) < ms )
-//        continue ;
+    double time = glfwGetTime( );
+    while ( ((glfwGetTime( ) - time ) * 1000) < ms )
+        continue ;
 }
 
 void OpenGL::displayMap( const MapStuff::Map & map ) {
@@ -92,28 +114,11 @@ void OpenGL::displaySnake( const Snake & snake ) {
 
 ControlEvents OpenGL::getNextEventInQueue() {
     glfwPollEvents();
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE))
-        glfwSetWindowShouldClose(window, GLFW_TRUE);
-    if (glfwWindowShouldClose(window))
-        return Quit;
-    if (glfwGetKey(window, GLFW_KEY_1))
-        return Num1;
-    if (glfwGetKey(window, GLFW_KEY_2))
-        return Num2;
-    if (glfwGetKey(window, GLFW_KEY_3))
-        return Num3;
-    if (glfwGetKey(window, GLFW_KEY_W))
-        return Up;
-    if (glfwGetKey(window, GLFW_KEY_A))
-        return Left;
-    if (glfwGetKey(window, GLFW_KEY_S))
-        return Down;
-    if (glfwGetKey(window, GLFW_KEY_D))
-        return Right;
-    if (glfwGetKey(window, GLFW_KEY_SPACE))
-        return StartSprint;
-    if (!glfwGetKey(window, GLFW_KEY_SPACE))
-        return StopSprint;
+    if (!event_queue.empty()) {
+        auto ev = event_queue.front();
+        event_queue.pop();
+        return ev;
+    }
     return NoEvent;
 }
 

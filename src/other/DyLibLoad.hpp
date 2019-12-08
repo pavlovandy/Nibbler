@@ -24,7 +24,7 @@
 # else
 #  define SDL_LIB_PATH		"/home/anri/CLionProjects/Nibbler/libSDL_lib.so"
 #  define SFML_LIB_PATH		"/home/anri/CLionProjects/Nibbler/libSFML_lib.so"
-#  define OPENGL_LIB_PATH	"libOpenGL_lib.so"
+#  define OPENGL_LIB_PATH	"/home/anri/CLionProjects/Nibbler/libOpenGL_lib.so"
 #endif
 
 enum GraphicalLibrary {
