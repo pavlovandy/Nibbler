@@ -13,9 +13,30 @@
 #ifndef NIBBLER_GRAPHIC_OPENGL_HPP
 # define NIBBLER_GRAPHIC_OPENGL_HPP
 
+# define GL_SILENCE_DEPRECATION
+
 # include "../IGraphicLibrary.hpp"
+# include <GLFW/glfw3.h>
 
 class OpenGL : public IGraphicLibrary {
+public:
+    OpenGL( int w, int h );
+    OpenGL( const OpenGL & ) = delete ;
+    OpenGL& operator=( const OpenGL & ) = delete ;
+    virtual ~OpenGL();
+
+    void	displaySnake( const Snake & ) override ;
+    void	displayMap( const MapStuff::Map & ) override ;
+    ControlEvents	getNextEventInQueue( ) override ;
+    void	update() override ;
+    void	delay( size_t ms ) override ;
+
+private:
+    enum {	SQUARE_SIZE = 20 };
+
+    void	displayRect( int x, int y, int w, int h );
+
+    GLFWwindow* window;
 };
 
 #endif

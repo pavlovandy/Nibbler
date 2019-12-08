@@ -13,4 +13,5 @@ echo "SFML installed..."
 
 echo "OpenGL installing..."
 brew install glew
+brew install glfw3
 echo "OpenGL installed..."
