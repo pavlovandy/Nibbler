@@ -24,7 +24,7 @@ public:
     OpenGL( int w, int h );
     OpenGL( const OpenGL & ) = delete ;
     OpenGL& operator=( const OpenGL & ) = delete ;
-    virtual ~OpenGL();
+    ~OpenGL() override ;
 
     void	displaySnake( const Snake & ) override ;
     void	displayMap( const MapStuff::Map & ) override ;
@@ -35,7 +35,7 @@ public:
 private:
     enum {	SQUARE_SIZE = 20 };
     static void    key_callback(GLFWwindow* win, int key, int scancode, int action, int mode );
-    void	displayRect( int x, int y, int w, int h );
+    static void	   displayRect( int x, int y, int w, int h );
 
     GLFWwindow* window;
     static std::queue<ControlEvents>   event_queue;

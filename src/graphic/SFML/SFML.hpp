@@ -19,7 +19,7 @@
 class SFML : public IGraphicLibrary {
 public:
 	SFML( int w, int h );
-	~SFML();
+	~SFML() override ;
 	void	displaySnake( const Snake & ) override ;
 	void	displayMap( const MapStuff::Map & ) override ;
 	ControlEvents	getNextEventInQueue( ) override ;

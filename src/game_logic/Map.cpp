@@ -19,12 +19,12 @@ void	MapStuff::createWallAtConstruct( int w, int h, std::vector< Dot<> >& wall )
 	wall.reserve(static_cast<unsigned>(2 * (w + h) - 4));
 	for (int y = 0; y < h; y++)
 	{
-		wall.push_back(Dot<>(0, y));
-		wall.push_back(Dot<>(w - 1, y));
+		wall.emplace_back(0, y);
+		wall.emplace_back(w - 1, y);
 	}
 	for (int x = 1; x < w - 1; x++) {
-		wall.push_back(Dot<>(x, 0));
-		wall.push_back(Dot<>(x, h - 1));
+		wall.emplace_back(x, 0);
+		wall.emplace_back(x, h - 1);
 	}
 }
 
@@ -58,7 +58,7 @@ const std::vector< Dot<> >&	Map::getWall() const {
 	return wall_;
 }
 
-Dot<>	MapStuff::spawnFood( std::vector< Dot<> > snake, const MapStuff::Map & map ) {
+Dot<>	MapStuff::spawnFood( const std::vector< Dot<> >& snake, const MapStuff::Map & map ) {
 	static std::default_random_engine generator{std::random_device()()};
 	static std::uniform_int_distribution<int> scale_x(0, map.getWidth() - 1);
 	static std::uniform_int_distribution<int> scale_y(0, map.getHeight() - 1);

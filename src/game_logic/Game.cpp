@@ -28,36 +28,35 @@ void		Game::controls() {
 			case Quit: exit = true; break;
 			case Left: 
 				if (!flag)
-					snake_.get()->changeDir(Dot<>{-1, 0});
+					snake_->changeDir(Dot<>{-1, 0});
 				flag = true; 
 				break;
 			case Right:
 				if (!flag)
-					snake_.get()->changeDir(Dot<>{1, 0});
+					snake_->changeDir(Dot<>{1, 0});
 				flag = true;
 				break;
 			case Up: 
 				if (!flag)
-					snake_.get()->changeDir(Dot<>{0, -1});
+					snake_->changeDir(Dot<>{0, -1});
 				flag = true; 
 				break;
 			case Down: 
 				if (!flag)
-					snake_.get()->changeDir(Dot<>{0, 1});
+					snake_->changeDir(Dot<>{0, 1});
 				flag = true;
 				break;
-			case StartSprint: if (!flag) snake_.get()->sprintOn(); break;
-			case StopSprint: if (!flag) snake_.get()->sprintOff(); break;
+			case StartSprint: if (!flag) snake_->sprintOn(); break;
+			case StopSprint: if (!flag) snake_->sprintOff(); break;
 			case Num1:
-				glib_ = dlLoad.changeLib(SDL_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
+				glib_ = dlLoad.changeLib(SDL_LIB_PATH, map_->getWidth(), map_->getHeight());
 			break;
 			case Num2:
-				glib_ = dlLoad.changeLib(SFML_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
+				glib_ = dlLoad.changeLib(SFML_LIB_PATH, map_->getWidth(), map_->getHeight());
 			break;
 			case Num3:
-				glib_ = dlLoad.changeLib(OPENGL_LIB_PATH, map_.get()->getWidth(), map_.get()->getHeight());
+				glib_ = dlLoad.changeLib(OPENGL_LIB_PATH, map_->getWidth(), map_->getHeight());
 			break;
-			case UnTrackedEvent: break;
 			default: break;
 		}
 	}

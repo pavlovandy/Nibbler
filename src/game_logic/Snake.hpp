@@ -19,7 +19,9 @@
 
 class Snake {
 public:
-	Snake( Dot<> head, size_t start_lenght = 4 );
+	explicit Snake( Dot<> head, size_t start_lenght = 4 );
+    Snake( const Snake & ) = delete;
+    Snake&	operator=( const Snake & ) = delete;
 	~Snake();
 
 	void		move();
@@ -35,10 +37,7 @@ public:
 	size_t		collision( const std::vector< Dot<> > & food ) const ;
 
 private:
-	enum { MAX_SNAKE_LENGHT = 40 };
-
-	Snake( const Snake & ) = delete;
-	Snake&	operator=( const Snake & ) = delete;
+	enum { MAX_SNAKE_LENGTH = 40 };
 	
 	Dot<int>	direction_;
 	std::vector< Dot<> >	snake_parts_;

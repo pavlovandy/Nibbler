@@ -40,7 +40,7 @@ namespace MapStuff {
 	};
 
 	void	createWallAtConstruct( int w, int h, std::vector< Dot<> >& wall);
-	Dot<>	spawnFood( std::vector< Dot<> > snake, const MapStuff::Map & map );	
+	Dot<>	spawnFood( const std::vector< Dot<> >& snake, const MapStuff::Map & map );
 }
 
 #endif

@@ -21,7 +21,7 @@ public:
 	SDL( int w, int h );
 	SDL( SDL const & ) = delete ;
 	SDL&	operator=( SDL const & ) = delete ;
-	virtual ~SDL();
+	~SDL() override ;
 	
 	void	displaySnake( const Snake & ) override ;
 	void	displayMap( const MapStuff::Map & ) override ;

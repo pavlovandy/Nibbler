@@ -25,12 +25,20 @@ extern "C" {
     }
 }
 
-static void error_callback(int error, const char* description)
+static void printQueue( std::queue<ControlEvents> queue ) {
+    std::cout << queue.size() << " ";
+    for ( ; !queue.empty() ; queue.pop() ) {
+        std::cout << queue.front() << " ";
+    }
+    std::cout << std::endl;
+}
+
+static void error_callback(int , const char* description)
 {
     throw std::runtime_error(description);
 }
 
-void OpenGL::key_callback(GLFWwindow* win, int key, int scancode, int action, int mode ) {
+void OpenGL::key_callback(GLFWwindow* , int key, int , int action, int  ) {
     if ( action == GLFW_PRESS ) {
         switch (key) {
             case GLFW_KEY_W: event_queue.push(Up); break;
@@ -54,7 +62,7 @@ OpenGL::OpenGL(int w, int h) {
     if( !glfwInit() )
         throw std::runtime_error("Error while initialization GLFW");
 
-    window = glfwCreateWindow( w * SQUARE_SIZE, h * SQUARE_SIZE, "Nibbler GLFW", NULL, NULL);
+    window = glfwCreateWindow( w * SQUARE_SIZE, h * SQUARE_SIZE, "Nibbler GLFW", nullptr, nullptr);
     if (!window){
         glfwTerminate();
         throw std::runtime_error("Error while initialization GLFW window");
@@ -86,36 +94,37 @@ void OpenGL::delay(size_t ms) {
     double time = glfwGetTime( );
     while ( ((glfwGetTime( ) - time ) * 1000) < ms )
         continue ;
+    glfwPollEvents(); // ?? how it works
 }
 
 void OpenGL::displayMap( const MapStuff::Map & map ) {
-    glColor3i(0, 0, 0);
+    glColor3ub(0, 0, 0);
     displayRect(0, 0, map.getWidth() * SQUARE_SIZE, map.getHeight() * SQUARE_SIZE);
     for (auto & food : map.getCookies()) {
-        glColor3i(140, 0, 130);
+        glColor3ub(140, 0, 130);
         displayRect(food.x * SQUARE_SIZE, food.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     }
     for (auto & wall : map.getWall()) {
-        glColor3i(100, 150, 100);
+        glColor3ub(100, 150, 100);
         displayRect(wall.x * SQUARE_SIZE, wall.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     }
 }
 
 void OpenGL::displaySnake( const Snake & snake ) {
-    std::vector< Dot<> >::const_iterator part = snake.getSnake().begin();
-    glColor3i(250, 0, 0);
+    auto part = snake.getSnake().begin();
+    glColor3ub(250, 0, 0);
     displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     part++;
     for ( ; part != snake.getSnake().end(); part++) {
-        glColor3i(200, 50, 0);
+        glColor3ub(200, 50, 0);
         displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     }
 }
 
 ControlEvents OpenGL::getNextEventInQueue() {
-    glfwPollEvents();
     if (!event_queue.empty()) {
         auto ev = event_queue.front();
+        printQueue(event_queue);
         event_queue.pop();
         return ev;
     }

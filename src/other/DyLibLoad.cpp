@@ -27,7 +27,8 @@ DyLibLoader&	DyLibLoader::getInstance() {
 	return lib;
 }
 
-DyLibLoader::DyLibLoader( ) : handler_(nullptr), alloc_(nullptr), dealloc_(nullptr) {
+DyLibLoader::DyLibLoader( ) : handler_(nullptr), \
+    alloc_(nullptr), glib_(nullptr), dealloc_(nullptr) {
 }
 
 DyLibLoader::~DyLibLoader() {

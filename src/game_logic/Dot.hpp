@@ -20,7 +20,7 @@ struct Dot {
 	T	x;
 	T	y;
 
-	Dot( T x = 0, T y = 0) : x(x), y(y) {}
+	explicit Dot( T x = 0, T y = 0) : x(x), y(y) {}
 	Dot( const Dot & d ) = default ;
 	Dot&	operator=( const Dot & d ) = default;
 	~Dot() = default;

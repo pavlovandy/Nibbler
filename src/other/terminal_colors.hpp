@@ -72,7 +72,7 @@
 # define ON_WHITE "\033[47m"
 
 /*
-** High Intensty
+** High Intensity
 */
 
 # define IBLACK "\033[0;90m"
@@ -98,7 +98,7 @@
 # define BIWHITE "\033[1;97m"
 
 /*
-** High Intensty backgrounds
+** High intensity backgrounds
 */
 
 # define ON_IBLACK "\033[0;100m"

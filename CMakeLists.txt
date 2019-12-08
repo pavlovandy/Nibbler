@@ -9,6 +9,7 @@ include_directories(src/other)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -o3")
 
 add_library(game_logic STATIC src/game_logic/Dot.hpp
         src/game_logic/Map.cpp

@@ -24,7 +24,7 @@ void		Snake::move() {
 }
 
 Snake::Snake( Dot<> head, size_t start_lenght ) : direction_{-1, 0}, sprint_(false) {
-	snake_parts_.reserve(MAX_SNAKE_LENGHT);
+	snake_parts_.reserve(MAX_SNAKE_LENGTH);
 	for ( size_t i = 0; i < start_lenght; i++) {
 		snake_parts_.push_back(head);
 		head = head - direction_;
@@ -32,7 +32,7 @@ Snake::Snake( Dot<> head, size_t start_lenght ) : direction_{-1, 0}, sprint_(fal
 }
 
 void		Snake::growUp() {
-	if (lenght() < MAX_SNAKE_LENGHT)
+	if (lenght() < MAX_SNAKE_LENGTH)
 		snake_parts_.push_back(snake_parts_.back());
 }
 
