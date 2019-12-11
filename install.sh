@@ -5,6 +5,7 @@ echo "Checking required libraries..."
 echo "SDL installing..."
 brew install sdl2
 brew install sdl2_image
+brew install sdl2_ttf
 echo "SDL installed..."
 
 echo "SFML installing..."

@@ -24,16 +24,18 @@ public:
 	void	displayMap( const MapStuff::Map & ) override ;
 	ControlEvents	getNextEventInQueue( ) override ;
 	void	update() override ;
-	void	delay( size_t ms ) override ;
+	void	delay( int64_t ms ) override ;
+    void    displayScore( int x, int y, std::string text ) override ;
 
 	SFML( const SFML & ) = delete;
 	SFML&	operator=( const SFML & ) = delete;
 
 private:
 	void	displayRect( int x, int y, sf::Color c, int w, int h );
-	enum {	SQUARE_SIZE = 20 };
+	enum {	SQUARE_SIZE = 40 };
 	sf::RenderWindow	win_;
 	sf::Event	ev_;
+	sf::Font    score_font_;
 };
 
 #endif

@@ -31,6 +31,8 @@ SFML::SFML( int w, int h ) {
 	win_.create(sf::VideoMode(w * SQUARE_SIZE, h * SQUARE_SIZE), "Nibbler SFML", sf::Style::Default, settings);
 	win_.setMouseCursorVisible(false);
 	win_.setPosition(sf::Vector2i(xCenter, yCenter));
+    if (!score_font_.loadFromFile("resorces/fonts/SourceSansPro-Black.otf"))
+        throw std::runtime_error("Couldn't load score font");
 }
 
 SFML::~SFML() { win_.close(); }
@@ -133,6 +135,21 @@ void	SFML::update() {
 	win_.clear();
 }
 
-void	SFML::delay( size_t ms ) {
+void	SFML::delay( int64_t ms ) {
 	sf::sleep(sf::milliseconds(ms));
+}
+
+void    SFML::displayScore( int x, int y, std::string text ) {
+    static_cast<void>(x);
+    static_cast<void>(y);
+    sf::Text    txt;
+    txt.setFont(score_font_);
+    txt.setString(text);
+    txt.setCharacterSize(80);
+    txt.setFillColor(sf::Color::Red);
+    txt.setStyle(sf::Text::Style::Bold | sf::Text::Style::Underlined);
+    txt.setOutlineColor(sf::Color::Yellow);
+    txt.setOutlineThickness(-2);
+    txt.setPosition((x - 0.5) * SQUARE_SIZE, (y - 0.4) * SQUARE_SIZE);
+    win_.draw(txt);
 }

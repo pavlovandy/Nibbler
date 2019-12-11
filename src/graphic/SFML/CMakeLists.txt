@@ -1,6 +1,6 @@
 set(src SFML.cpp)
 set(head SFML.hpp)
-set(SFML_DIR ../../../cmake_modules/)
+
 find_package(SFML 2.5 REQUIRED system window graphics)
 include_directories(INTERFACE "../" PUBLIC "../../game_logic/")
 

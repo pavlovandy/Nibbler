@@ -60,7 +60,7 @@ void	SDL::displayMap( const MapStuff::Map & map ) {
 	}
 }
 
-void	SDL::delay( size_t ms ) {
+void	SDL::delay( int64_t ms ) {
 	SDL_Delay(ms);
 }
 
@@ -105,4 +105,11 @@ extern "C" {
 	void				deallocator( IGraphicLibrary* glib ) {
 		delete glib;
 	}
+}
+
+void    SDL::displayScore( int x, int y, std::string text ) {
+    static_cast<void>(x);
+    static_cast<void>(y);
+    static std::string prev(SDL_GetWindowTitle(win_));
+    SDL_SetWindowTitle(win_, (prev + " | Score: " + text).c_str());
 }

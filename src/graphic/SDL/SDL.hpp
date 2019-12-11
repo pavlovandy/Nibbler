@@ -27,7 +27,8 @@ public:
 	void	displayMap( const MapStuff::Map & ) override ;
 	ControlEvents	getNextEventInQueue( ) override ;
 	void	update() override ;
-	void	delay( size_t ms ) override ;
+	void	delay( int64_t ms ) override ;
+    void    displayScore( int x, int y, std::string text ) override ;
 
 private:
 	enum {	SQUARE_SIZE = 20 };

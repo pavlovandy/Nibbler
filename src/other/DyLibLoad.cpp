@@ -58,7 +58,7 @@ IGraphicLibrary*	DyLibLoader::loadLib( const std::string & path, int w, int h ) 
 	last_lib_path_ = path;
 	handler_ = dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
 	if (!handler_)
-		throw LibLoadError(dlerror());
+        throw LibLoadError(dlerror());
 	dealloc_ = reinterpret_cast<deallocator_t*>(dlsym(handler_, "deallocator"));
 	if (!dealloc_)
 		throw LibLoadError(dlerror());

@@ -22,7 +22,7 @@ Game::Game( int w, int h, const std::string & start_lib ) : glib_(nullptr), exit
 
 void		Game::controls() {
 	static auto & dlLoad = DyLibLoad::DyLibLoader::getInstance();
-	bool	flag = false; //to allow only change once directrion per frame
+	bool	flag = false; //to allow only change once direction per frame
 	for ( ControlEvents ev; (ev = glib_->getNextEventInQueue()) != NoEvent; ) {
 		switch (ev){
 			case Quit: exit = true; break;
@@ -80,16 +80,21 @@ static int		moveSnake( Snake* snake_, MapStuff::Map* map_ ) {
 
 void		Game::start() {
 	exit = false;
+
 	while (!exit) {
-		glib_->delay(60);
+		glib_->delay(60 - snake_->lenght());
+
 		controls();
 		if (exit) return ;
 		exit = moveSnake(snake_.get(), map_.get());
 		if (!exit && snake_->getSprintStatus())
 			exit = moveSnake(snake_.get(), map_.get());
 		if (exit) return ;
+
 		glib_->displayMap( *map_ );
 		glib_->displaySnake( *snake_ );
+		glib_->displayScore( map_->getWidth() / 2, 0, std::to_string(snake_->lenght()) );
+
 		glib_->update();
 	}
 }

@@ -66,7 +66,7 @@ bool		Snake::getSprintStatus() const {
 
 bool		Snake::selfCollision() const {
 	auto head = snake_parts_.front();
-	for ( std::vector< Dot<> >::const_iterator i = snake_parts_.begin() + 1; i != snake_parts_.end(); i++ ) {
+	for ( auto i = snake_parts_.begin() + 1; i != snake_parts_.end(); i++ ) {
 		if (*i == head)
 			return true;
 	}
@@ -74,7 +74,7 @@ bool		Snake::selfCollision() const {
 }
 
 size_t			Snake::collision( const std::vector< Dot<> > & block ) const {
-	for ( std::vector< Dot<> >::const_iterator i = block.begin(); i != block.end(); i++ ) {
+	for ( auto i = block.begin(); i != block.end(); i++ ) {
 		if (*i == *snake_parts_.begin())
 			return static_cast<size_t>(i - block.begin());
 	}

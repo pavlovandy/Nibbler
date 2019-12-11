@@ -2,7 +2,10 @@
 set(src SDL.cpp)
 set(head SDL.hpp)
 
-find_package(SDL2 REQUIRED)
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules")
+find_package(SDL2  REQUIRED)
+
 include_directories(${SDL2_INCLUDE_DIRS})
 include_directories(INTERFACE "../" PUBLIC "../../game_logic/")
 

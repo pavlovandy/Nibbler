@@ -11,7 +11,6 @@
 // ************************************************************************** //
 
 #include "OpenGL.hpp"
-#include <iostream>
 
 std::queue<ControlEvents>    OpenGL::event_queue;
 
@@ -23,14 +22,6 @@ extern "C" {
     void	deallocator( IGraphicLibrary* glib ) {
         delete glib;
     }
-}
-
-static void printQueue( std::queue<ControlEvents> queue ) {
-    std::cout << queue.size() << " ";
-    for ( ; !queue.empty() ; queue.pop() ) {
-        std::cout << queue.front() << " ";
-    }
-    std::cout << std::endl;
 }
 
 static void error_callback(int , const char* description)
@@ -90,10 +81,10 @@ void OpenGL::displayRect(int x, int y, int w, int h) {
     glRectf(x, y, x + w, y + h);
 }
 
-void OpenGL::delay(size_t ms) {
+void OpenGL::delay(int64_t ms) {
     double time = glfwGetTime( );
-    while ( ((glfwGetTime( ) - time ) * 1000) < ms )
-        continue ;
+    while ( ((glfwGetTime( ) - time )) * 1000 < ms )
+        continue;
     glfwPollEvents(); // ?? how it works
 }
 
@@ -124,7 +115,6 @@ void OpenGL::displaySnake( const Snake & snake ) {
 ControlEvents OpenGL::getNextEventInQueue() {
     if (!event_queue.empty()) {
         auto ev = event_queue.front();
-        printQueue(event_queue);
         event_queue.pop();
         return ev;
     }
@@ -138,4 +128,10 @@ void OpenGL::update() {
 OpenGL::~OpenGL() {
     glfwDestroyWindow(window);
     glfwTerminate();
+}
+
+void    OpenGL::displayScore( int x, int y, std::string text ) {
+    static_cast<void>(x);
+    static_cast<void>(y);
+    static_cast<void>(text);
 }

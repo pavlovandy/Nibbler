@@ -41,7 +41,8 @@ public:
 	virtual	void	displayMap( const MapStuff::Map & ) = 0;
 	virtual ControlEvents	getNextEventInQueue( ) = 0;
 	virtual	void	update() = 0;
-	virtual void	delay( size_t ms ) = 0;
+	virtual void	delay( int64_t ms ) = 0;
+	virtual void    displayScore( int x, int y, std::string text ) = 0;
 };
 
 #endif
