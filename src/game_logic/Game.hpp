@@ -18,11 +18,19 @@
 # include <cstddef>
 # include <memory>
 # include <string>
+# include <iostream>
 # include "../other/DyLibLoad.hpp"
 # include "../graphic/IGraphicLibrary.hpp"
 # include "../sound/ISoundLib.hpp"
 
 class IGraphicLibrary;
+
+enum GameMode
+{
+	SinglePlayer = 0,
+	MultiPlayer,
+	Exit
+};
 
 class	Game {
 public:
@@ -32,6 +40,8 @@ public:
 	~Game();
 
 	void		start();
+	void		startMenu();
+	void		pauseMenu();
 	void		controls();
 
 private:
@@ -40,10 +50,11 @@ private:
 
     int     moveSnake();
 
-	std::unique_ptr< Snake >	snake_;
-	std::unique_ptr< MapStuff::Map >	map_;
-	IGraphicLibrary*	glib_;
-	ISoundLib*  slib_;
+	std::unique_ptr< Snake >				python_;
+	std::unique_ptr< Snake >				cobra_;
+	std::unique_ptr< MapStuff::Map >		map_;
+	IGraphicLibrary*						glib_;
+	ISoundLib*								slib_;
 	bool	exit;
 };
 

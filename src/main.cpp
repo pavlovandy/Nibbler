@@ -45,7 +45,7 @@ int		main( int argc, char ** argv ) {
 		try
 		{
 			Game	game(w, h, SFML_LIB_PATH, SFMLSOUND_LIB_PATH);
-			game.start();
+			game.startMenu();
 
 		}
 		catch(const std::exception& e)

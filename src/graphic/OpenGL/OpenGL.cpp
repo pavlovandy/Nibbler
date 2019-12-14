@@ -32,10 +32,16 @@ static void error_callback(int , const char* description)
 void OpenGL::key_callback(GLFWwindow* , int key, int , int action, int  ) {
     if ( action == GLFW_PRESS ) {
         switch (key) {
-            case GLFW_KEY_W: event_queue.push(Up); break;
-            case GLFW_KEY_S: event_queue.push(Down); break;
-            case GLFW_KEY_A: event_queue.push(Left); break;
-            case GLFW_KEY_D: event_queue.push(Right); break;
+            case GLFW_KEY_W: event_queue.push(W); break;
+            case GLFW_KEY_S: event_queue.push(S); break;
+            case GLFW_KEY_A: event_queue.push(A); break;
+            case GLFW_KEY_D: event_queue.push(D); break;
+            case GLFW_KEY_P: event_queue.push(Pause); break;
+            case GLFW_KEY_RIGHT: event_queue.push(Right); break;
+            case GLFW_KEY_LEFT: event_queue.push(Left); break;
+            case GLFW_KEY_DOWN: event_queue.push(Down); break;
+            case GLFW_KEY_UP: event_queue.push(Up); break;
+            case GLFW_KEY_ENTER: event_queue.push(Enter); break;
             case GLFW_KEY_SPACE: event_queue.push(StartSprint); break;
             case GLFW_KEY_ESCAPE: event_queue.push(Quit); break;
             case GLFW_KEY_1: event_queue.push(Num1); break;

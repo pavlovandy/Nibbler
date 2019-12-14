@@ -13,12 +13,16 @@
 # include "SDL.hpp"
 
 SDL::SDL( int w, int h ) {
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0 || TTF_Init() == -1)
 		throw std::runtime_error(SDL_GetError());
 	if (!(win_ = SDL_CreateWindow("Nibbler SDL", SDL_WINDOWPOS_CENTERED, \
 		SDL_WINDOWPOS_CENTERED, w * SQUARE_SIZE, h * SQUARE_SIZE, SDL_WINDOW_SHOWN)))
 		throw std::runtime_error(SDL_GetError());
 	if (!(win_surr_ = SDL_GetWindowSurface(win_)))
+		throw std::runtime_error(SDL_GetError());
+	if (!(renderer_ = SDL_CreateRenderer(win_, -1, 0)))
+		throw std::runtime_error(SDL_GetError());
+	if (!(texture_menu_ = SDL_CreateTextureFromSurface(renderer_, IMG_Load("./resorces/texture/background.png"))))
 		throw std::runtime_error(SDL_GetError());
 }
 
@@ -71,18 +75,23 @@ ControlEvents	SDL::getNextEventInQueue( ) {
 			case SDL_KEYDOWN:
 				switch (ev_.key.keysym.sym)
 				{
-					case SDLK_ESCAPE: return Quit; break;
-					case SDLK_1: return Num1; break;
-					case SDLK_2: return Num2; break;
-					case SDLK_3: return Num3; break;
-					case SDLK_SPACE: return StartSprint; break;
-					case SDLK_w: return Up; break;
-					case SDLK_s: return Down; break;
-					case SDLK_a: return Left; break;
-					case SDLK_d: return Right; break;
-					default: return UnTrackedEvent; break;
+					case SDLK_ESCAPE: return Quit;
+					case SDLK_1: return Num1;
+					case SDLK_2: return Num2;
+					case SDLK_3: return Num3;
+					case SDLK_SPACE: return StartSprint;
+					case SDLK_w: return W;
+					case SDLK_s: return S;
+					case SDLK_a: return A;
+					case SDLK_d: return D;
+					case SDLK_LEFT: return Left;
+					case SDLK_RIGHT: return Right;
+					case SDLK_UP: return Up;
+					case SDLK_p: return Pause;
+					case SDLK_DOWN: return Down;
+					case SDLK_RETURN : return Enter;
+					default: return UnTrackedEvent;
 				}
-				break;
 			case SDL_KEYUP:
 				switch (ev_.key.keysym.sym)
 				{

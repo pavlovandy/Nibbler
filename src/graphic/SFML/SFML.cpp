@@ -112,10 +112,16 @@ ControlEvents	SFML::getNextEventInQueue( ) {
 				else if (ev_.key.code == sf::Keyboard::Num2) return Num2;
 				else if (ev_.key.code == sf::Keyboard::Num3) return Num3;
 				else if (ev_.key.code == sf::Keyboard::Space) return StartSprint;
-				else if (ev_.key.code == sf::Keyboard::W) return Up;
-				else if (ev_.key.code == sf::Keyboard::S) return Down;
-				else if (ev_.key.code == sf::Keyboard::A) return Left;
-				else if (ev_.key.code == sf::Keyboard::D) return Right;
+				else if (ev_.key.code == sf::Keyboard::W) return W;
+				else if (ev_.key.code == sf::Keyboard::S) return S;
+				else if (ev_.key.code == sf::Keyboard::A) return A;
+				else if (ev_.key.code == sf::Keyboard::D) return D;
+				else if (ev_.key.code == sf::Keyboard::P) return Pause;
+				else if (ev_.key.code == sf::Keyboard::Enter) return Enter;
+				else if (ev_.key.code == sf::Keyboard::Right) return Right;
+				else if (ev_.key.code == sf::Keyboard::Left) return Left;
+				else if (ev_.key.code == sf::Keyboard::Up) return Up;
+				else if (ev_.key.code == sf::Keyboard::Down) return Down;
 				else return UnTrackedEvent;
 			break;
 			case sf::Event::KeyReleased:

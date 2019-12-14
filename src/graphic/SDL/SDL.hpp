@@ -14,7 +14,9 @@
 # define NIBBLER_GRAPHIC_SDL_HPP
 
 # include "../IGraphicLibrary.hpp"
-# include <SDL2/SDL.h>
+# include "SDL.h"
+# include "SDL_ttf.h"
+# include "SDL_image.h"
 
 class SDL : public IGraphicLibrary {
 public:
@@ -29,6 +31,8 @@ public:
 	void	update() override ;
 	void	delay( int64_t ms ) override ;
     void    displayScore( int x, int y, std::string text ) override ;
+    void	renderMenu();
+    void	renderText();
 
 private:
 	enum {	SQUARE_SIZE = 20 };
@@ -40,6 +44,9 @@ private:
 
 	void	displayRect( int x, int y, Uint32 c, int w, int h );
 
+	SDL_Texture*	texture_menu_;
+	TTF_Font*		menu_font_;
+	SDL_Renderer*	renderer_;
 	SDL_Window*		win_;
 	SDL_Surface*	win_surr_;
 	SDL_Event		ev_;
