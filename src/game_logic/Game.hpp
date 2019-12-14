@@ -20,12 +20,13 @@
 # include <string>
 # include "../other/DyLibLoad.hpp"
 # include "../graphic/IGraphicLibrary.hpp"
+# include "../sound/ISoundLib.hpp"
 
 class IGraphicLibrary;
 
 class	Game {
 public:
-	Game( int w, int h, const std::string & start_lib);
+	Game( int w, int h, const std::string & start_lib, const std::string & start_sound_lib);
 	Game( const Game & ) = delete ;
 	Game&	operator=( const Game & ) = delete ;
 	~Game();
@@ -34,10 +35,15 @@ public:
 	void		controls();
 
 private:
+    enum {DEATH_MESSAGE_TIME = 5000};
+
+
+    int     moveSnake();
 
 	std::unique_ptr< Snake >	snake_;
 	std::unique_ptr< MapStuff::Map >	map_;
 	IGraphicLibrary*	glib_;
+	ISoundLib*  slib_;
 	bool	exit;
 };
 

@@ -12,16 +12,22 @@
 
 #include "Game.hpp"
 
-Game::Game( int w, int h, const std::string & start_lib ) : glib_(nullptr), exit(false) {
+Game::Game( int w, int h,
+        const std::string & start_lib,
+        const std::string & start_sound_lib )
+        : glib_(nullptr), slib_(nullptr), exit(false) {
 	snake_ = std::make_unique<Snake>(Dot<>{w / 2, h / 2}); //set start snake
 	map_ = std::make_unique< MapStuff::Map >(w, h); //make map
 	map_->getCookies().push_back(MapStuff::spawnFood( snake_->getSnake(), *map_ )); // fill start food
 	map_->getCookies().push_back(MapStuff::spawnFood( snake_->getSnake(), *map_ )); // fill start food
-	glib_ = DyLibLoad::DyLibLoader::getInstance().loadLib(start_lib, w, h); // get graphic lib
+
+
+	glib_ = DyLibLoad::DyLibLoader<IGraphicLibrary>::getInstance().loadLib(start_lib, w, h);
+	slib_ = DyLibLoad::DyLibLoader<ISoundLib>::getInstance().loadLib(start_sound_lib, 0, 0);
 }
 
 void		Game::controls() {
-	static auto & dlLoad = DyLibLoad::DyLibLoader::getInstance();
+	static auto & dlLoad = DyLibLoad::DyLibLoader<IGraphicLibrary>::getInstance();
 	bool	flag = false; //to allow only change once direction per frame
 	for ( ControlEvents ev; (ev = glib_->getNextEventInQueue()) != NoEvent; ) {
 		switch (ev){
@@ -63,16 +69,22 @@ void		Game::controls() {
 }
 
 Game::~Game() {
-	DyLibLoad::DyLibLoader::getInstance().closeLib();
+	DyLibLoad::DyLibLoader<IGraphicLibrary>::getInstance().closeLib();
+    DyLibLoad::DyLibLoader<ISoundLib>::getInstance().closeLib();
 }
 
-static int		moveSnake( Snake* snake_, MapStuff::Map* map_ ) {
+int		Game::moveSnake() {
 	snake_->move();
-	if (snake_->selfCollision() || snake_->collision(map_->getWall()) != map_->getWall().size())
-		return (true);
+	if (snake_->selfCollision() || snake_->collision(map_->getWall()) != map_->getWall().size()) {
+        slib_->playSadSound();
+	    glib_->delay(DEATH_MESSAGE_TIME);
+        return (true);
+	}
+
 	size_t num = snake_->collision(map_->getCookies());
 	if (num != map_->getCookies().size()) {
 		snake_->growUp();
+        slib_->playHappySound();
 		map_->getCookies()[num] = MapStuff::spawnFood( snake_->getSnake(), *map_ );
 	}
 	return (false);
@@ -83,18 +95,15 @@ void		Game::start() {
 
 	while (!exit) {
 		glib_->delay(60 - snake_->lenght());
-
 		controls();
 		if (exit) return ;
-		exit = moveSnake(snake_.get(), map_.get());
+		exit = moveSnake();
 		if (!exit && snake_->getSprintStatus())
-			exit = moveSnake(snake_.get(), map_.get());
+			exit = moveSnake();
 		if (exit) return ;
-
 		glib_->displayMap( *map_ );
 		glib_->displaySnake( *snake_ );
 		glib_->displayScore( map_->getWidth() / 2, 0, std::to_string(snake_->lenght()) );
-
 		glib_->update();
 	}
 }

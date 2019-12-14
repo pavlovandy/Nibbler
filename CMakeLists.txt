@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(src/game_logic)
 include_directories(src/graphic)
 include_directories(src/other)
+include_directories(src/sound)
 
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
@@ -21,6 +22,7 @@ add_library(game_logic STATIC src/game_logic/Dot.hpp
         src/other/DyLibLoad.hpp
         src/game_logic/Game.cpp
         src/game_logic/Game.hpp
+        src/sound/ISoundLib.hpp
         src/other/terminal_colors.hpp)
 
 set_property(TARGET game_logic PROPERTY POSITION_INDEPENDENT_CODE ON)

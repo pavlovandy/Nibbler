@@ -13,5 +13,6 @@ fclean: clean
 	rm -rf libSDL_lib*
 	rm -rf libSFML_lib*
 	rm -rf libOpenGL_lib*
+	rm -rf libSFML_audio*
 
 re: fclean all

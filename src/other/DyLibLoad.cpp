@@ -13,58 +13,71 @@
 #include "DyLibLoad.hpp"
 #include <iostream>
 
-using DyLibLoad::DyLibLoader;
+namespace DyLibLoad {
 
-DyLibLoad::LibLoadError::LibLoadError(char const * str) : std::runtime_error(str) {
-}
+    LibLoadError::LibLoadError(char const *str) : std::runtime_error(str) {
+    }
 
-char const *	DyLibLoad::LibLoadError::what() const noexcept(true) {
-	return std::runtime_error::what();	
-}
+    char const *LibLoadError::what() const noexcept(true) {
+        return std::runtime_error::what();
+    }
 
-DyLibLoader&	DyLibLoader::getInstance() {
-	static DyLibLoader	lib;
-	return lib;
-}
+    template < class T >
+    DyLibLoader<T> &DyLibLoader<T>::getInstance() {
+        static DyLibLoader lib;
+        return lib;
+    }
 
-DyLibLoader::DyLibLoader( ) : handler_(nullptr), \
-    alloc_(nullptr), glib_(nullptr), dealloc_(nullptr) {
-}
+    template < class T >
+    DyLibLoader<T>::DyLibLoader() : handler_(nullptr), \
+    alloc_(nullptr), lib_(nullptr), dealloc_(nullptr) {}
 
-DyLibLoader::~DyLibLoader() {
-	if (dlerror())
-		std::cerr << dlerror() << std::endl;
-	closeLib();
-}
+    template < class T >
+    DyLibLoader<T>::~DyLibLoader() {
+        if (dlerror())
+            std::cerr << dlerror() << std::endl;
+        closeLib();
+    }
 
-void	DyLibLoader::closeLib() {
-	if (handler_) {
-		dealloc_(glib_);
-		dlclose(handler_);
-		handler_ = nullptr;
-		dealloc_ = nullptr;
-		alloc_ = nullptr;
-	}
-}
+    template < class T >
+    void DyLibLoader<T>::closeLib() {
+        if (handler_) {
+            dealloc_(lib_);
+            dlclose(handler_);
+            handler_ = nullptr;
+            dealloc_ = nullptr;
+            alloc_ = nullptr;
+        }
+    }
 
-IGraphicLibrary*	DyLibLoader::changeLib( const std::string & path, int w, int h ) {
-	if (last_lib_path_ == path)
-		return glib_;
-	closeLib();
-	return loadLib(path, w, h);
-} 
+    template < class T >
+    T *DyLibLoader<T>::changeLib(const std::string &path, int w, int h) {
+        if (last_lib_path_ == path)
+            return lib_;
+        closeLib();
+        return loadLib(path, w, h);
+    }
 
-IGraphicLibrary*	DyLibLoader::loadLib( const std::string & path, int w, int h ) {
-	last_lib_path_ = path;
-	handler_ = dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
-	if (!handler_)
-        throw LibLoadError(dlerror());
-	dealloc_ = reinterpret_cast<deallocator_t*>(dlsym(handler_, "deallocator"));
-	if (!dealloc_)
-		throw LibLoadError(dlerror());
-	alloc_ = reinterpret_cast<allocator_t*>(dlsym(handler_, "allocator"));
-	if (!alloc_)
-		throw LibLoadError(dlerror());
-	glib_ = alloc_( w, h );
-	return glib_;
+    template < class T >
+    T *DyLibLoader<T>::loadLib(const std::string &path, int w, int h) {
+        last_lib_path_ = path;
+        handler_ = dlopen(path.c_str(), RTLD_LAZY | RTLD_LOCAL);
+        if (!handler_)
+            throw LibLoadError(dlerror());
+        dealloc_ = reinterpret_cast<deallocator_t *>(dlsym(handler_, "deallocator"));
+        if (!dealloc_)
+            throw LibLoadError(dlerror());
+        alloc_ = reinterpret_cast<allocator_t *>(dlsym(handler_, "allocator"));
+        if (!alloc_)
+            throw LibLoadError(dlerror());
+        lib_ = alloc_(w, h);
+        return lib_;
+    }
+
+    template
+    class DyLibLoader<IGraphicLibrary>;
+
+    template
+    class DyLibLoader<ISoundLib>;
+
 }

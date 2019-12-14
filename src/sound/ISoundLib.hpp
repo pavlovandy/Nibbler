@@ -15,10 +15,11 @@
 
 class ISoundLib {
 public:
-    ISoundLib();
-    virtual ~ISoundLib();
+    virtual ~ISoundLib() {}
     virtual void    playHappySound() = 0;
     virtual void    playSadSound() = 0;
+    virtual void    increaseVolume() = 0;
+    virtual void    decreaseVolume() = 0;
 };
 
 #endif
