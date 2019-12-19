@@ -49,7 +49,7 @@ Dot<int>	Snake::getDir() const {
 	return direction_;
 }
 
-int			Snake::lenght() const {
+size_t			Snake::lenght() const {
 	return static_cast<int>(snake_parts_.size());
 }
 
