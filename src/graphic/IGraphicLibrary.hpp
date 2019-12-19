@@ -19,6 +19,13 @@ class Snake;
 class Map;
 class Game;
 
+enum GameMode
+{
+	SinglePlayer = 0,
+	MultiPlayer,
+	Exit
+};
+
 enum ControlEvents {
 	NoEvent,
 	UnTrackedEvent,
@@ -26,6 +33,12 @@ enum ControlEvents {
 	Right,
 	Up,
 	Down,
+	A,
+	D,
+	W,
+	S,
+	Enter,
+	Pause,
 	StartSprint,
 	StopSprint,
 	Num1,
@@ -43,6 +56,7 @@ public:
 	virtual	void	update() = 0;
 	virtual void	delay( int64_t ms ) = 0;
 	virtual void    displayScore( int x, int y, std::string text ) = 0;
+	virtual void	displayMenu(GameMode mode) = 0;
 };
 
 #endif

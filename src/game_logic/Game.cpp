@@ -16,12 +16,11 @@ Game::Game( int w, int h,
         const std::string & start_lib,
         const std::string & start_sound_lib )
         : glib_(nullptr), slib_(nullptr), exit(false) {
-	snake_ = std::make_unique<Snake>(Dot<>{w / 2, h / 2}); //set start snake
+	python_ = std::make_unique<Snake>(Dot<>{w / 2, h / 2}); //set start snake
 	map_ = std::make_unique< MapStuff::Map >(w, h); //make map
-	map_->getCookies().push_back(MapStuff::spawnFood( snake_->getSnake(), *map_ )); // fill start food
-	map_->getCookies().push_back(MapStuff::spawnFood( snake_->getSnake(), *map_ )); // fill start food
-
-
+	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
+	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
+	
 	glib_ = DyLibLoad::DyLibLoader<IGraphicLibrary>::getInstance().loadLib(start_lib, w, h);
 	slib_ = DyLibLoad::DyLibLoader<ISoundLib>::getInstance().loadLib(start_sound_lib, 0, 0);
 }
@@ -32,28 +31,28 @@ void		Game::controls() {
 	for ( ControlEvents ev; (ev = glib_->getNextEventInQueue()) != NoEvent; ) {
 		switch (ev){
 			case Quit: exit = true; break;
-			case Left: 
+			case A:
 				if (!flag)
-					snake_->changeDir(Dot<>{-1, 0});
+					python_->changeDir(Dot<>{-1, 0});
 				flag = true; 
 				break;
-			case Right:
+			case D:
 				if (!flag)
-					snake_->changeDir(Dot<>{1, 0});
+					python_->changeDir(Dot<>{1, 0});
 				flag = true;
 				break;
-			case Up: 
+			case W:
 				if (!flag)
-					snake_->changeDir(Dot<>{0, -1});
+					python_->changeDir(Dot<>{0, -1});
 				flag = true; 
 				break;
-			case Down: 
+			case S:
 				if (!flag)
-					snake_->changeDir(Dot<>{0, 1});
+					python_->changeDir(Dot<>{0, 1});
 				flag = true;
 				break;
-			case StartSprint: if (!flag) snake_->sprintOn(); break;
-			case StopSprint: if (!flag) snake_->sprintOff(); break;
+			case StartSprint: if (!flag) python_->sprintOn(); break;
+			case StopSprint: if (!flag) python_->sprintOff(); break;
 			case Num1:
 				glib_ = dlLoad.changeLib(SDL_LIB_PATH, map_->getWidth(), map_->getHeight());
 			break;
@@ -74,36 +73,84 @@ Game::~Game() {
 }
 
 int		Game::moveSnake() {
-	snake_->move();
-	if (snake_->selfCollision() || snake_->collision(map_->getWall()) != map_->getWall().size()) {
+	python_->move();
+	if (python_->selfCollision() || python_->collision(map_->getWall()) != map_->getWall().size()) {
         slib_->playSadSound();
 	    glib_->delay(DEATH_MESSAGE_TIME);
         return (true);
 	}
 
-	size_t num = snake_->collision(map_->getCookies());
+	size_t num = python_->collision(map_->getCookies());
 	if (num != map_->getCookies().size()) {
-		snake_->growUp();
+		python_->growUp();
         slib_->playHappySound();
-		map_->getCookies()[num] = MapStuff::spawnFood( snake_->getSnake(), *map_ );
+		map_->getCookies()[num] = MapStuff::spawnFood( python_->getSnake(), *map_ );
 	}
 	return (false);
 }
-
 void		Game::start() {
 	exit = false;
-
+	
 	while (!exit) {
-		glib_->delay(60 - snake_->lenght());
+		glib_->delay(60 - python_->lenght());
 		controls();
 		if (exit) return ;
 		exit = moveSnake();
-		if (!exit && snake_->getSprintStatus())
+		if (!exit && python_->getSprintStatus())
 			exit = moveSnake();
 		if (exit) return ;
-		glib_->displayMap( *map_ );
-		glib_->displaySnake( *snake_ );
-		glib_->displayScore( map_->getWidth() / 2, 0, std::to_string(snake_->lenght()) );
+		glib_->displayMap(*map_);
+		glib_->displaySnake(*python_);
+		glib_->displayScore(map_->getWidth() / 2, 0, std::to_string(python_->lenght() - 4));
 		glib_->update();
+	}
+}
+
+void Game::startMenu()
+{
+	GameMode gameMode = SinglePlayer;
+	glib_->displayMenu(gameMode);
+	for (ControlEvents ev; true; )
+	{
+		ev = glib_->getNextEventInQueue();
+		switch (ev)
+		{
+			case Enter :
+			{
+				if (gameMode == SinglePlayer || gameMode == MultiPlayer)
+				{
+					if (gameMode == MultiPlayer)
+						cobra_ = std::make_unique<Snake>(python_->getSnake()[0] - Dot<>{0, 4});
+					Game::start();
+				}
+				else
+					return;
+			}
+			case Quit:
+				return;
+			case Up :
+			{
+				if (gameMode == SinglePlayer)
+					gameMode = Exit;
+				else if (gameMode == MultiPlayer)
+					gameMode = SinglePlayer;
+				else
+					gameMode = MultiPlayer;
+				break;
+			}
+			case Down :
+			{
+				if (gameMode == SinglePlayer)
+					gameMode = MultiPlayer;
+				else if (gameMode == MultiPlayer)
+					gameMode = Exit;
+				else
+					gameMode = SinglePlayer;
+				break;
+			}
+			default:
+				break;
+		}
+		glib_->displayMenu(gameMode);
 	}
 }

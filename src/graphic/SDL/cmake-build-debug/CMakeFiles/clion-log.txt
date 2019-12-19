@@ -1,0 +1,30 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/ggavryly/CLionProjects/Nibbler/src/graphic/SDL
+CMake Error at CMakeLists.txt:7 (find_package):
+  By not providing "FindSDL2_ttf.cmake" in CMAKE_MODULE_PATH this project has
+  asked CMake to find a package configuration file provided by "SDL2_ttf",
+  but CMake did not find one.
+
+  Could not find a package configuration file provided by "SDL2_ttf" with any
+  of the following names:
+
+    SDL2_ttfConfig.cmake
+    sdl2_ttf-config.cmake
+
+  Add the installation prefix of "SDL2_ttf" to CMAKE_PREFIX_PATH or set
+  "SDL2_ttf_DIR" to a directory containing one of the above files.  If
+  "SDL2_ttf" provides a separate development package or SDK, be sure it has
+  been installed.
+
+
+CMake Warning (dev) in CMakeLists.txt:
+  No cmake_minimum_required command is present.  A line of code such as
+
+    cmake_minimum_required(VERSION 3.14)
+
+  should be added at the top of the file.  The version specified may be lower
+  if you wish to support older CMake versions for this project.  For more
+  information run "cmake --help-policy CMP0000".
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Configuring incomplete, errors occurred!
+See also "/Users/ggavryly/CLionProjects/Nibbler/src/graphic/SDL/cmake-build-debug/CMakeFiles/CMakeOutput.log".
