@@ -16,10 +16,11 @@
 # include "Dot.hpp"
 # include <vector>
 # include "Dot.hpp"
+# include "SnakeBodyColor.h"
 
 class Snake {
 public:
-	explicit Snake( Dot<> head, size_t start_lenght = 4 );
+    Snake( Dot<> head, uint32_t head_color, uint32_t body_color, size_t start_lenght = 4 );
     Snake( const Snake & ) = delete;
     Snake&	operator=( const Snake & ) = delete;
 	~Snake();
@@ -35,6 +36,7 @@ public:
 	bool		getSprintStatus() const ;
 	bool		selfCollision() const ;
 	size_t		collision( const std::vector< Dot<> > & food ) const ;
+	SnakeBodyColor  getColor() const ;
 
 private:
 	enum { MAX_SNAKE_LENGTH = 40 };
@@ -42,6 +44,8 @@ private:
 	Dot<int>	direction_;
 	std::vector< Dot<> >	snake_parts_;
 	bool		sprint_;
+
+    SnakeBodyColor  color_;
 };
 
 #endif

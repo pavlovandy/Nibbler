@@ -23,7 +23,7 @@ void		Snake::move() {
 	snake_parts_[0] = snake_parts_[0] + direction_;
 }
 
-Snake::Snake( Dot<> head, size_t start_lenght ) : direction_{-1, 0}, sprint_(false) {
+Snake::Snake( Dot<> head, uint32_t head_color, uint32_t body_color, size_t start_lenght ) : direction_{-1, 0}, sprint_(false), color_({head_color, body_color}) {
 	snake_parts_.reserve(MAX_SNAKE_LENGTH);
 	for ( size_t i = 0; i < start_lenght; i++) {
 		snake_parts_.push_back(head);
@@ -79,4 +79,8 @@ size_t			Snake::collision( const std::vector< Dot<> > & block ) const {
 			return static_cast<size_t>(i - block.begin());
 	}
 	return block.size();
+}
+
+SnakeBodyColor  Snake::getColor() const {
+    return color_;
 }

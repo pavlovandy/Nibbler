@@ -77,10 +77,10 @@ SDL::~SDL() {
 
 void	SDL::displaySnake( const Snake & snake ) {
 	std::vector< Dot<> >::const_iterator part = snake.getSnake().begin();
-	displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, HEAD_COLOR, SQUARE_SIZE, SQUARE_SIZE);
+	displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, snake.getColor().head, SQUARE_SIZE, SQUARE_SIZE);
 	part++;
 	for ( ; part != snake.getSnake().end(); part++) {
-		displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, BODY_COLOR, SQUARE_SIZE, SQUARE_SIZE);
+		displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, snake.getColor().body, SQUARE_SIZE, SQUARE_SIZE);
 	}
 }
 

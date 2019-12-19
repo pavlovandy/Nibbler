@@ -24,7 +24,7 @@ add_library(game_logic STATIC src/game_logic/Dot.hpp
         src/game_logic/Game.cpp
         src/game_logic/Game.hpp
         src/sound/ISoundLib.hpp
-        src/other/terminal_colors.hpp)
+        src/other/terminal_colors.hpp src/game_logic/SnakeBodyColor.h)
 
 set_property(TARGET game_logic PROPERTY POSITION_INDEPENDENT_CODE ON)
 

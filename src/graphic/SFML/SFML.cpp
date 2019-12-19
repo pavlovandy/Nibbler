@@ -73,15 +73,12 @@ void	SFML::displaySnake( const Snake & snake ) {
 		head.rotate(270);
 		head.move(0, SQUARE_SIZE);
 	}
-	head.setFillColor(sf::Color::Green);
+	head.setFillColor(sf::Color(snake.getColor().head));
 	win_.draw(head);
-	
 
-	
-	//displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, , SQUARE_SIZE, SQUARE_SIZE);
 	part++;
 	for ( ; part != snake.getSnake().end(); part++) {
-		displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, sf::Color::Green, SQUARE_SIZE, SQUARE_SIZE);
+		displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, sf::Color(snake.getColor().body), SQUARE_SIZE, SQUARE_SIZE);
 	}
 }
 

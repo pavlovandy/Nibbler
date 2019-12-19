@@ -16,7 +16,7 @@ Game::Game( int w, int h,
         const std::string & start_lib,
         const std::string & start_sound_lib )
         : glib_(nullptr), slib_(nullptr), exit(false) {
-	python_ = std::make_unique<Snake>(Dot<>{w / 2, h / 2}); //set start snake
+	python_ = std::make_unique<Snake>(Dot<>{w / 2, h / 2}, SnakeBodyColor::Color::RED, SnakeBodyColor::Color::LIGHTRED); //set start snake
 	map_ = std::make_unique< MapStuff::Map >(w, h); //make map
 	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
 	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
@@ -120,7 +120,7 @@ void Game::startMenu()
 				if (gameMode == SinglePlayer || gameMode == MultiPlayer)
 				{
 					if (gameMode == MultiPlayer)
-						cobra_ = std::make_unique<Snake>(python_->getSnake()[0] - Dot<>{0, 4});
+						cobra_ = std::make_unique<Snake>(python_->getSnake()[0] - Dot<>{0, 4}, SnakeBodyColor::Color::BLUE, SnakeBodyColor::Color::CYAN);
 					Game::start();
 				}
 				else

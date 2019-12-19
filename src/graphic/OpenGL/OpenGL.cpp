@@ -14,6 +14,10 @@
 
 std::queue<ControlEvents>    OpenGL::event_queue;
 
+static void     setColor( uint32_t color ) {
+    glColor3ub(color >> 16 & 0xff, color >> 8 & 0xff, color & 0xff);
+}
+
 extern "C" {
     IGraphicLibrary*	allocator( int w, int h) {
         return new OpenGL(w, h);
@@ -109,11 +113,11 @@ void OpenGL::displayMap( const MapStuff::Map & map ) {
 
 void OpenGL::displaySnake( const Snake & snake ) {
     auto part = snake.getSnake().begin();
-    glColor3ub(250, 0, 0);
+    setColor(snake.getColor().head);
     displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     part++;
+    setColor(snake.getColor().body);
     for ( ; part != snake.getSnake().end(); part++) {
-        glColor3ub(200, 50, 0);
         displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
     }
 }
