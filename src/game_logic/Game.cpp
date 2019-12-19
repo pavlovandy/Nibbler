@@ -88,10 +88,9 @@ int		Game::moveSnake() {
 	}
 	return (false);
 }
-
 void		Game::start() {
 	exit = false;
-
+	
 	while (!exit) {
 		glib_->delay(60 - python_->lenght());
 		controls();
@@ -102,7 +101,7 @@ void		Game::start() {
 		if (exit) return ;
 		glib_->displayMap(*map_);
 		glib_->displaySnake(*python_);
-		glib_->displayScore(map_->getWidth() / 2, 0, std::to_string(python_->lenght()));
+		glib_->displayScore(map_->getWidth() / 2, 0, std::to_string(python_->lenght() - 4));
 		glib_->update();
 	}
 }

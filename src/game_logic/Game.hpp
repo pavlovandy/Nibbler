@@ -47,8 +47,6 @@ private:
 	std::unique_ptr< Snake >				cobra_;
 	std::unique_ptr< MapStuff::Map >		map_;
 	IGraphicLibrary*						glib_;
-	IGraphicLibrary*						ttflib_;
-	IGraphicLibrary*						imagelib_;
 	ISoundLib*								slib_;
 	bool	exit;
 };

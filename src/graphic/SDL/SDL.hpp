@@ -52,7 +52,6 @@ private:
 	SDL_Texture*	exit_t_[2];
 	TTF_Font*		font_;
 	SDL_Texture*	back_text_;
-	SDL_Texture*	wall_text_;
 	SDL_Renderer*	renderer_;
 	SDL_Window*		win_;
 	SDL_Event		ev_;

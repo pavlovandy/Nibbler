@@ -23,8 +23,7 @@ SDL::SDL( int w, int h ) {
 		throw std::runtime_error(SDL_GetError());
 	if (!(font_ = TTF_OpenFont("resorces/fonts/game_font.ttf", 32)))
 		throw std::runtime_error(SDL_GetError());
-	if (!(back_text_ = IMG_LoadTexture(renderer_,"resorces/texture/background.png"))
-	|| !(wall_text_ = IMG_LoadTexture(renderer_,"resorces/texture/wall.png")))
+	if (!(back_text_ = IMG_LoadTexture(renderer_,"resorces/texture/background.png")))
 		throw std::runtime_error(SDL_GetError());
 	{
 		int tmp_w = w * 20;
@@ -60,18 +59,20 @@ SDL::SDL( int w, int h ) {
 
 SDL::~SDL() {
 	SDL_DestroyRenderer(renderer_);
+	TTF_CloseFont(font_);
 	SDL_DestroyTexture(single_pl_t_[RED]);
 	SDL_DestroyTexture(single_pl_t_[BlACK]);
 	SDL_DestroyTexture(multi_pl_t_[RED]);
 	SDL_DestroyTexture(multi_pl_t_[BlACK]);
 	SDL_DestroyTexture(exit_t_[RED]);
 	SDL_DestroyTexture(exit_t_[BlACK]);
+	SDL_DestroyTexture(back_text_);
 	renderer_ = nullptr;
 	SDL_DestroyWindow(win_);
 	win_ = nullptr;
 	back_text_ = nullptr;
-	wall_text_ = nullptr;
 	SDL_Quit();
+	TTF_Quit();
 }
 
 void	SDL::displaySnake( const Snake & snake ) {

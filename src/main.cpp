@@ -44,10 +44,8 @@ int		main( int argc, char ** argv ) {
 			return (0);
 		try
 		{
-			std::cout << system("pwd") << std::endl;
 			Game	game(w, h, SDL_LIB_PATH, SFMLSOUND_LIB_PATH);
 			game.startMenu();
-
 		}
 		catch(const std::exception& e)
 		{
@@ -57,5 +55,6 @@ int		main( int argc, char ** argv ) {
 	else {
 		std::cout << RED << "Usage: " << COLOR_OFF << std::endl;
 	}
+	std::cout << "a " << std::endl;
 	return (0);
 }
