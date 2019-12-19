@@ -139,12 +139,10 @@ void Game::startMenu()
 					gameMode = SinglePlayer;
 				else
 					gameMode = MultiPlayer;
-				std::cout << "Up" << std::endl;
 				break;
 			}
 			case Down :
 			{
-				std::cout << "Down" << std::endl;
 				if (gameMode == SinglePlayer)
 					gameMode = MultiPlayer;
 				else if (gameMode == MultiPlayer)
@@ -156,7 +154,6 @@ void Game::startMenu()
 			default:
 				break;
 		}
-		std::cout << "Mode = " << gameMode << std::endl;
 		glib_->displayMenu(w_, h_, gameMode);
 	}
 }
