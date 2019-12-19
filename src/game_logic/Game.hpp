@@ -32,22 +32,22 @@ public:
 	Game&	operator=( const Game & ) = delete ;
 	~Game();
 
-	void		start();
+	void		startOne();
+	void		startTwo();
 	void		startMenu();
-	void		pauseMenu();
 	void		controls();
 
 private:
     enum {DEATH_MESSAGE_TIME = 5000};
 
 
-    int     moveSnake();
+    int     moveSnake(std::unique_ptr< Snake > & snake, std::unique_ptr< Snake > & another);
 
-	std::unique_ptr< Snake >				python_;
-	std::unique_ptr< Snake >				cobra_;
-	std::unique_ptr< MapStuff::Map >		map_;
-	IGraphicLibrary*						glib_;
-	ISoundLib*								slib_;
+	std::unique_ptr< Snake >				python_{nullptr};
+	std::unique_ptr< Snake >				cobra_{nullptr};
+	std::unique_ptr< MapStuff::Map >		map_{nullptr};
+	IGraphicLibrary*						glib_{nullptr};
+	ISoundLib*								slib_{nullptr};
 	bool	exit;
 };
 
