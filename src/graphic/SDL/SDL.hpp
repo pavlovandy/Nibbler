@@ -15,8 +15,10 @@
 
 # include "../IGraphicLibrary.hpp"
 # include "SDL.h"
-# include "SDL_ttf.h"
 # include "SDL_image.h"
+# include "SDL_ttf.h"
+# define BlACK 0
+# define RED 1
 
 class SDL : public IGraphicLibrary {
 public:
@@ -31,8 +33,7 @@ public:
 	void	update() override ;
 	void	delay( int64_t ms ) override ;
     void    displayScore( int x, int y, std::string text ) override ;
-    void	renderMenu();
-    void	renderText();
+    void	displayMenu(int w, int h, GameMode mode) override ;
 
 private:
 	enum {	SQUARE_SIZE = 20 };
@@ -43,12 +44,14 @@ private:
 			FOOD_COLOR = 0xffff00 };
 
 	void	displayRect( int x, int y, Uint32 c, int w, int h );
-
-	SDL_Texture*	texture_menu_;
-	TTF_Font*		menu_font_;
+	SDL_Texture*	single_pl_t_[2];
+	SDL_Texture*	multi_pl_t_[2];
+	SDL_Texture*	exit_t_[2];
+	TTF_Font*		font_;
+	SDL_Texture*	back_text_;
+	SDL_Texture*	wall_text_;
 	SDL_Renderer*	renderer_;
 	SDL_Window*		win_;
-	SDL_Surface*	win_surr_;
 	SDL_Event		ev_;
 };
 

@@ -159,3 +159,12 @@ void    SFML::displayScore( int x, int y, std::string text ) {
     txt.setPosition((x - 0.5) * SQUARE_SIZE, (y - 0.4) * SQUARE_SIZE);
     win_.draw(txt);
 }
+
+
+
+void	SFML::displayMenu(int w, int h, GameMode mode)
+{
+	std::cout << w;
+	std::cout << h;
+	std::cout << static_cast<int>(mode);
+}

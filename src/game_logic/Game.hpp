@@ -25,13 +25,6 @@
 
 class IGraphicLibrary;
 
-enum GameMode
-{
-	SinglePlayer = 0,
-	MultiPlayer,
-	Exit
-};
-
 class	Game {
 public:
 	Game( int w, int h, const std::string & start_lib, const std::string & start_sound_lib);
@@ -54,7 +47,11 @@ private:
 	std::unique_ptr< Snake >				cobra_;
 	std::unique_ptr< MapStuff::Map >		map_;
 	IGraphicLibrary*						glib_;
+	IGraphicLibrary*						ttflib_;
+	IGraphicLibrary*						imagelib_;
 	ISoundLib*								slib_;
+	int 									w_;
+	int 									h_;
 	bool	exit;
 };
 

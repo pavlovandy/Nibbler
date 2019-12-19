@@ -13,24 +13,53 @@
 # include "SDL.hpp"
 
 SDL::SDL( int w, int h ) {
+
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0 || TTF_Init() == -1)
 		throw std::runtime_error(SDL_GetError());
 	if (!(win_ = SDL_CreateWindow("Nibbler SDL", SDL_WINDOWPOS_CENTERED, \
 		SDL_WINDOWPOS_CENTERED, w * SQUARE_SIZE, h * SQUARE_SIZE, SDL_WINDOW_SHOWN)))
 		throw std::runtime_error(SDL_GetError());
-	if (!(win_surr_ = SDL_GetWindowSurface(win_)))
+	if (!(renderer_ = SDL_CreateRenderer(win_,0, 0)))
 		throw std::runtime_error(SDL_GetError());
-	if (!(renderer_ = SDL_CreateRenderer(win_, -1, 0)))
+	if (!(font_ = TTF_OpenFont("resorces/fonts/game_font.ttf", 32)))
 		throw std::runtime_error(SDL_GetError());
-	if (!(texture_menu_ = SDL_CreateTextureFromSurface(renderer_, IMG_Load("./resorces/texture/background.png"))))
+	if (!(back_text_ = IMG_LoadTexture(renderer_,"resorces/texture/background.png"))
+	|| !(wall_text_ = IMG_LoadTexture(renderer_,"resorces/texture/wall.png")))
 		throw std::runtime_error(SDL_GetError());
+	{
+		SDL_Color black_ = {.r = 0, .a = 0, .b = 0, .g = 0};
+		SDL_Color red_ = {.r = 255, .a = 0, .b = 0, .g = 0};
+		SDL_Surface *tmp_sing_b = TTF_RenderText_Solid(font_, "Single-player", black_);
+		SDL_Surface *tmp_mult_b = TTF_RenderText_Solid(font_, "Multi-player", black_);
+		SDL_Surface *tmp_sing_r = TTF_RenderText_Solid(font_, "Single-player", red_);
+		SDL_Surface *tmp_mult_r = TTF_RenderText_Solid(font_, "Multi-player", red_);
+		SDL_Surface *exit_b = TTF_RenderText_Solid(font_, "Exit", black_);
+		SDL_Surface *exit_r = TTF_RenderText_Solid(font_, "Exit", red_);
+		single_pl_t_[BlACK] = SDL_CreateTextureFromSurface(renderer_, tmp_sing_b);
+		single_pl_t_[RED] = SDL_CreateTextureFromSurface(renderer_, tmp_sing_r);
+		multi_pl_t_[BlACK] = SDL_CreateTextureFromSurface(renderer_, tmp_mult_b);
+		multi_pl_t_[RED] = SDL_CreateTextureFromSurface(renderer_, tmp_mult_r);
+		exit_t_[BlACK] = SDL_CreateTextureFromSurface(renderer_, exit_b);
+		exit_t_[RED] = SDL_CreateTextureFromSurface(renderer_, exit_r);
+		SDL_FreeSurface(tmp_mult_b);
+		SDL_FreeSurface(tmp_mult_r);
+		SDL_FreeSurface(tmp_sing_b);
+		SDL_FreeSurface(tmp_sing_r);
+		SDL_FreeSurface(exit_b);
+		SDL_FreeSurface(exit_r);
+	}
+	
+	SDL_RenderCopy(renderer_, back_text_, nullptr, nullptr);
+	SDL_RenderPresent(renderer_);
 }
 
 SDL::~SDL() {
-	SDL_FreeSurface(win_surr_);
-	win_surr_ = nullptr;
+	SDL_DestroyRenderer(renderer_);
+	renderer_ = nullptr;
 	SDL_DestroyWindow(win_);
 	win_ = nullptr;
+	back_text_ = nullptr;
+	wall_text_ = nullptr;
 	SDL_Quit();
 }
 
@@ -45,11 +74,12 @@ void	SDL::displaySnake( const Snake & snake ) {
 
 void	SDL::displayRect( int x, int y, Uint32 c, int w, int h ) {
 	SDL_Rect rec{x, y, w, h};
-	SDL_FillRect(win_surr_, &rec, c);
+	SDL_SetRenderDrawColor(renderer_, (c >> 16) & 0xFF , (c >> 8) & 0xFF, c & 0xFF, 0);
+	SDL_RenderFillRect(renderer_, &rec);
 }
 
 void	SDL::update() {
-	SDL_UpdateWindowSurface(win_);
+	SDL_RenderPresent(renderer_);
 }
 
 void	SDL::displayMap( const MapStuff::Map & map ) {
@@ -121,4 +151,32 @@ void    SDL::displayScore( int x, int y, std::string text ) {
     static_cast<void>(y);
     static std::string prev(SDL_GetWindowTitle(win_));
     SDL_SetWindowTitle(win_, (prev + " | Score: " + text).c_str());
+}
+
+void SDL::displayMenu(int w, int h, GameMode mode)
+{
+	SDL_Rect sing_pos = {.w = w / 2, .h = h / 8, .x = w / 2 - (w / 4), .y  = h / 2 - ((h / 8) * 2)};
+	SDL_Rect mult_pos = {.w = w / 2, .h = h / 8, .x = w / 2 - (w / 4), .y  = sing_pos.y + sing_pos.h};
+	SDL_Rect exit_pos = {.w = w / 8, .h = h / 8, .x = w / 2 - (w / 4) + sing_pos.w / 2 - sing_pos.w / 6, .y  = mult_pos.y + sing_pos.h};
+	SDL_RenderClear(renderer_);
+	SDL_RenderCopy(renderer_, back_text_, nullptr, nullptr);
+	if (mode == SinglePlayer)
+	{
+		SDL_RenderCopy(renderer_, single_pl_t_[RED], nullptr, &sing_pos);
+		SDL_RenderCopy(renderer_, multi_pl_t_[BlACK], nullptr, &mult_pos);
+		SDL_RenderCopy(renderer_, exit_t_[BlACK], nullptr, &exit_pos);
+	}
+	else if (mode == MultiPlayer)
+	{
+		SDL_RenderCopy(renderer_, single_pl_t_[BlACK], nullptr, &sing_pos);
+		SDL_RenderCopy(renderer_, multi_pl_t_[RED], nullptr, &mult_pos);
+		SDL_RenderCopy(renderer_, exit_t_[BlACK], nullptr, &exit_pos);
+	}
+	else if (mode == Exit)
+	{
+		SDL_RenderCopy(renderer_, single_pl_t_[BlACK], nullptr, &sing_pos);
+		SDL_RenderCopy(renderer_, multi_pl_t_[BlACK], nullptr, &mult_pos);
+		SDL_RenderCopy(renderer_, exit_t_[RED], nullptr, &exit_pos);
+	}
+	this->update();
 }

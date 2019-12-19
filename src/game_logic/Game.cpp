@@ -21,7 +21,8 @@ Game::Game( int w, int h,
 	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
 	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
 
-
+	w_ = 20 * w;
+	h_ = 20 * h;
 	glib_ = DyLibLoad::DyLibLoader<IGraphicLibrary>::getInstance().loadLib(start_lib, w, h);
 	slib_ = DyLibLoad::DyLibLoader<ISoundLib>::getInstance().loadLib(start_sound_lib, 0, 0);
 }
@@ -101,9 +102,9 @@ void		Game::start() {
 		if (!exit && python_->getSprintStatus())
 			exit = moveSnake();
 		if (exit) return ;
-		glib_->displayMap( *map_ );
-		glib_->displaySnake( *python_ );
-		glib_->displayScore( map_->getWidth() / 2, 0, std::to_string(python_->lenght()) );
+		glib_->displayMap(*map_);
+		glib_->displaySnake(*python_);
+		glib_->displayScore(map_->getWidth() / 2, 0, std::to_string(python_->lenght()));
 		glib_->update();
 	}
 }
@@ -111,6 +112,7 @@ void		Game::start() {
 void Game::startMenu()
 {
 	GameMode gameMode = SinglePlayer;
+	glib_->displayMenu(w_, h_, gameMode);
 	for (ControlEvents ev; true; )
 	{
 		ev = glib_->getNextEventInQueue();
@@ -126,34 +128,35 @@ void Game::startMenu()
 				}
 				else
 					return;
-				std::cout << "lo" << std::endl;
 			}
 			case Quit:
 				return;
 			case Up:
 			{
 				if (gameMode == SinglePlayer)
-					gameMode = MultiPlayer;
-				else if (gameMode == MultiPlayer)
 					gameMode = Exit;
-				else
+				else if (gameMode == MultiPlayer)
 					gameMode = SinglePlayer;
-				std::cout << "lo1" << std::endl;
+				else
+					gameMode = MultiPlayer;
+				std::cout << "Up" << std::endl;
 				break;
 			}
 			case Down :
 			{
+				std::cout << "Down" << std::endl;
 				if (gameMode == SinglePlayer)
-					gameMode = Exit;
-				else if (gameMode == MultiPlayer)
-					gameMode = SinglePlayer;
-				else
 					gameMode = MultiPlayer;
-				std::cout << "lo2" << std::endl;
+				else if (gameMode == MultiPlayer)
+					gameMode = Exit;
+				else
+					gameMode = SinglePlayer;
 				break;
 			}
 			default:
 				break;
 		}
+		std::cout << "Mode = " << gameMode << std::endl;
+		glib_->displayMenu(w_, h_, gameMode);
 	}
 }
