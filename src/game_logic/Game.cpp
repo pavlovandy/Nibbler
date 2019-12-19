@@ -95,7 +95,14 @@ Game::~Game() {
 
 int		Game::moveSnake(std::unique_ptr< Snake > & snake, std::unique_ptr< Snake > & another) {
 	snake->move();
-	if (snake->selfCollision() || snake->collision(map_->getWall()) != map_->getWall().size() || (snake->collision(another->getSnake()) != another->lenght())) {
+	if (another) {
+		if ( (snake->collision(another->getSnake()) != another->lenght()) ) {
+			slib_->playSadSound();
+			glib_->delay(DEATH_MESSAGE_TIME);
+			return (true);
+		}
+	}
+	if (snake->selfCollision() || snake->collision(map_->getWall()) != map_->getWall().size()) {
         slib_->playSadSound();
 	    glib_->delay(DEATH_MESSAGE_TIME);
         return (true);

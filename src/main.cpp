@@ -55,6 +55,5 @@ int		main( int argc, char ** argv ) {
 	else {
 		std::cout << RED << "Usage: " << COLOR_OFF << std::endl;
 	}
-	std::cout << "a " << std::endl;
 	return (0);
 }
