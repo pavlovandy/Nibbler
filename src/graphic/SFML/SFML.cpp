@@ -45,7 +45,7 @@ void	SFML::displayRect( int x, int y, sf::Color c, int w, int h ) {
 }
 
 void	SFML::displaySnake( const Snake & snake ) {
-	std::vector< Dot<> >::const_iterator part = snake.getSnake().begin();
+	auto part = snake.getSnake().begin();
 
 	sf::ConvexShape head;
 	head.setPointCount(8);
@@ -73,12 +73,12 @@ void	SFML::displaySnake( const Snake & snake ) {
 		head.rotate(270);
 		head.move(0, SQUARE_SIZE);
 	}
-	head.setFillColor(sf::Color(snake.getColor().head));
+	head.setFillColor(sf::Color((snake.getColor().head << 8) + 0xff));
 	win_.draw(head);
 
 	part++;
 	for ( ; part != snake.getSnake().end(); part++) {
-		displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, sf::Color(snake.getColor().body), SQUARE_SIZE, SQUARE_SIZE);
+		displayRect(part->x * SQUARE_SIZE, part->y * SQUARE_SIZE, sf::Color((snake.getColor().body << 8) + 0xff), SQUARE_SIZE, SQUARE_SIZE);
 	}
 }
 
