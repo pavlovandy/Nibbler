@@ -6,7 +6,7 @@
 /*   By: Andrii Pavlov <apavlov@student.unit.ua>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/09 18:50:17 by Andrii Pavl       #+#    #+#             */
-/*   Updated: 2019/11/23 18:55:10 by Andrii Pavl      ###   ########.fr       */
+/*   Updated: 2019/12/19 14:40:50 by Andrii Pavl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ Game::Game( int w, int h,
 void		Game::controls() {
 	static auto & dlLoad = DyLibLoad::DyLibLoader<IGraphicLibrary>::getInstance();
 	bool	flag = false; //to allow only change once direction per frame
+	bool	flag_cobra = false; //to allow only change once direction per frame
 	for ( ControlEvents ev; (ev = glib_->getNextEventInQueue()) != NoEvent; ) {
 		switch (ev){
 			case Quit: exit = true; break;
@@ -51,6 +52,26 @@ void		Game::controls() {
 					python_->changeDir(Dot<>{0, 1});
 				flag = true;
 				break;
+			case Left:
+				if (!flag_cobra && cobra_->lenght())
+					cobra_->changeDir(Dot<>{-1, 0});
+				flag_cobra = true;
+				break;
+			case Right:
+				if (!flag_cobra && cobra_->lenght())
+					cobra_->changeDir(Dot<>{1, 0});
+				flag_cobra = true;
+				break;
+			case Up:
+				if (!flag_cobra && cobra_->lenght())
+					cobra_->changeDir(Dot<>{0, -1});
+				flag_cobra = true;
+				break;
+			case Down:
+				if (!flag_cobra && cobra_->lenght())
+					cobra_->changeDir(Dot<>{0, 1});
+				flag_cobra = true;
+				break;
 			case StartSprint: if (!flag) python_->sprintOn(); break;
 			case StopSprint: if (!flag) python_->sprintOff(); break;
 			case Num1:
@@ -72,36 +93,56 @@ Game::~Game() {
     DyLibLoad::DyLibLoader<ISoundLib>::getInstance().closeLib();
 }
 
-int		Game::moveSnake() {
-	python_->move();
-	if (python_->selfCollision() || python_->collision(map_->getWall()) != map_->getWall().size()) {
+int		Game::moveSnake(std::unique_ptr< Snake > & snake, std::unique_ptr< Snake > & another) {
+	snake->move();
+	if (snake->selfCollision() || snake->collision(map_->getWall()) != map_->getWall().size() || (snake->collision(another->getSnake()) != another->lenght())) {
         slib_->playSadSound();
 	    glib_->delay(DEATH_MESSAGE_TIME);
         return (true);
 	}
-
-	size_t num = python_->collision(map_->getCookies());
+	
+	size_t num = snake->collision(map_->getCookies());
 	if (num != map_->getCookies().size()) {
-		python_->growUp();
+		snake->growUp();
         slib_->playHappySound();
-		map_->getCookies()[num] = MapStuff::spawnFood( python_->getSnake(), *map_ );
+		map_->getCookies()[num] = MapStuff::spawnFood( snake->getSnake(), *map_ );
 	}
 	return (false);
 }
-void		Game::start() {
+void		Game::startOne() {
 	exit = false;
 	
 	while (!exit) {
-		glib_->delay(60 - python_->lenght());
+		glib_->delay(80 - python_->lenght());
 		controls();
 		if (exit) return ;
-		exit = moveSnake();
+		exit = moveSnake(python_, cobra_);
 		if (!exit && python_->getSprintStatus())
-			exit = moveSnake();
+			exit = moveSnake(python_, cobra_);
 		if (exit) return ;
 		glib_->displayMap(*map_);
 		glib_->displaySnake(*python_);
 		glib_->displayScore(map_->getWidth() / 2, 0, std::to_string(python_->lenght() - 4));
+		glib_->update();
+	}
+}
+
+void		Game::startTwo() {
+	exit = false;
+	
+	while (!exit) {
+		std::cout << std::max(python_->lenght(), cobra_->lenght()) << std::endl;
+		glib_->delay(80 - std::max(python_->lenght(), cobra_->lenght()));
+		controls();
+		if (exit) return ;
+		exit = moveSnake(python_, cobra_);
+		if (exit) return ;
+		exit = moveSnake(cobra_, python_);
+		if (exit) return ;
+		glib_->displayMap(*map_);
+		glib_->displaySnake(*python_);
+		glib_->displaySnake(*cobra_);
+		//glib_->displayScore(map_->getWidth() / 2, 0, std::to_string(python_->lenght() + cobra_->lenght() - 8));
 		glib_->update();
 	}
 }
@@ -117,11 +158,12 @@ void Game::startMenu()
 		{
 			case Enter :
 			{
-				if (gameMode == SinglePlayer || gameMode == MultiPlayer)
+				if (gameMode == SinglePlayer)
+					Game::startOne();
+				else if (gameMode == MultiPlayer)
 				{
-					if (gameMode == MultiPlayer)
-						cobra_ = std::make_unique<Snake>(python_->getSnake()[0] - Dot<>{0, 4}, SnakeBodyColor::Color::BLUE, SnakeBodyColor::Color::CYAN);
-					Game::start();
+					cobra_ = std::make_unique<Snake>(python_->getSnake()[0] + Dot<>{0, 4}, SnakeBodyColor::Color::BLUE, SnakeBodyColor::Color::CYAN);
+					Game::startTwo();
 				}
 				else
 					return;

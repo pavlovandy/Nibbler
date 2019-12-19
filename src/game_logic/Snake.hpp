@@ -29,7 +29,7 @@ public:
 	const std::vector< Dot<> >&	getSnake() const ;
 	void		changeDir( Dot<int> );
 	Dot<int>	getDir() const ;
-	int			lenght() const ;
+	size_t			lenght() const ;
 	void		growUp();
 	void		sprintOn();
 	void		sprintOff();
