@@ -56,7 +56,7 @@ public:
 	virtual	void	update() = 0;
 	virtual void	delay( int64_t ms ) = 0;
 	virtual void    displayScore( int x, int y, std::string text ) = 0;
-	virtual void	displayMenu(int w, int h, GameMode mode) = 0;
+	virtual void	displayMenu(GameMode mode) = 0;
 };
 
 #endif

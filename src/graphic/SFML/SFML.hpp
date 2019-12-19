@@ -26,7 +26,7 @@ public:
 	void	update() override ;
 	void	delay( int64_t ms ) override ;
     void    displayScore( int x, int y, std::string text ) override;
-	void	displayMenu(int w, int h, GameMode mode) override ;
+	void	displayMenu(GameMode mode) override ;
 
 	SFML( const SFML & ) = delete;
 	SFML&	operator=( const SFML & ) = delete;

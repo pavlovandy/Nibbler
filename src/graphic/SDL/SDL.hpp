@@ -33,7 +33,7 @@ public:
 	void	update() override ;
 	void	delay( int64_t ms ) override ;
     void    displayScore( int x, int y, std::string text ) override ;
-    void	displayMenu(int w, int h, GameMode mode) override ;
+    void	displayMenu(GameMode mode) override ;
 
 private:
 	enum {	SQUARE_SIZE = 20 };
@@ -44,6 +44,9 @@ private:
 			FOOD_COLOR = 0xffff00 };
 
 	void	displayRect( int x, int y, Uint32 c, int w, int h );
+	SDL_Rect		sing_pos_;
+	SDL_Rect		mult_pos_;
+	SDL_Rect		exit_pos_;
 	SDL_Texture*	single_pl_t_[2];
 	SDL_Texture*	multi_pl_t_[2];
 	SDL_Texture*	exit_t_[2];

@@ -20,9 +20,7 @@ Game::Game( int w, int h,
 	map_ = std::make_unique< MapStuff::Map >(w, h); //make map
 	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
 	map_->getCookies().push_back(MapStuff::spawnFood( python_->getSnake(), *map_ )); // fill start food
-
-	w_ = 20 * w;
-	h_ = 20 * h;
+	
 	glib_ = DyLibLoad::DyLibLoader<IGraphicLibrary>::getInstance().loadLib(start_lib, w, h);
 	slib_ = DyLibLoad::DyLibLoader<ISoundLib>::getInstance().loadLib(start_sound_lib, 0, 0);
 }
@@ -112,7 +110,7 @@ void		Game::start() {
 void Game::startMenu()
 {
 	GameMode gameMode = SinglePlayer;
-	glib_->displayMenu(w_, h_, gameMode);
+	glib_->displayMenu(gameMode);
 	for (ControlEvents ev; true; )
 	{
 		ev = glib_->getNextEventInQueue();
@@ -131,7 +129,7 @@ void Game::startMenu()
 			}
 			case Quit:
 				return;
-			case Up:
+			case Up :
 			{
 				if (gameMode == SinglePlayer)
 					gameMode = Exit;
@@ -154,6 +152,6 @@ void Game::startMenu()
 			default:
 				break;
 		}
-		glib_->displayMenu(w_, h_, gameMode);
+		glib_->displayMenu(gameMode);
 	}
 }

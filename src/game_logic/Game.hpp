@@ -50,8 +50,6 @@ private:
 	IGraphicLibrary*						ttflib_;
 	IGraphicLibrary*						imagelib_;
 	ISoundLib*								slib_;
-	int 									w_;
-	int 									h_;
 	bool	exit;
 };
 

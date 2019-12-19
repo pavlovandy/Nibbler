@@ -162,9 +162,7 @@ void    SFML::displayScore( int x, int y, std::string text ) {
 
 
 
-void	SFML::displayMenu(int w, int h, GameMode mode)
+void	SFML::displayMenu(GameMode mode)
 {
-	std::cout << w;
-	std::cout << h;
 	std::cout << static_cast<int>(mode);
 }

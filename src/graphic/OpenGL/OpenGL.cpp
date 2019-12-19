@@ -142,9 +142,7 @@ void    OpenGL::displayScore( int x, int y, std::string text ) {
     static_cast<void>(text);
 }
 
-void	OpenGL::displayMenu(int w, int h, GameMode mode)
+void	OpenGL::displayMenu(GameMode mode)
 {
-	std::cout << w;
-	std::cout << h;
 	std::cout << static_cast<int>(mode);
 }
